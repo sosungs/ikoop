@@ -18,7 +18,7 @@ function PSI_getHost() {
 	}
 	
 	// 本地单机部署，发现写IP地址比localhost，数据库要快很多
-	return "127.0.0.1";
+	return "192.168.1.233";
 }
 
 function PSI_getDBName() {
@@ -28,7 +28,7 @@ function PSI_getDBName() {
 		return $cfg["db"];
 	}
 	
-	return "psi";
+	return "df0e8f70";
 }
 
 function PSI_getUser() {
@@ -38,7 +38,7 @@ function PSI_getUser() {
 		return $cfg["user"];
 	}
 	
-	return "root";
+	return "027fbc82";
 }
 
 function PSI_getPassword() {
@@ -48,7 +48,7 @@ function PSI_getPassword() {
 		return $cfg["password"];
 	}
 	
-	return "";
+	return "a675b41e";
 }
 
 function PSI_getPort() {
@@ -58,7 +58,7 @@ function PSI_getPort() {
 		return $cfg["port"];
 	}
 	
-	return 3306;
+	return 30430;
 }
 
 $psiConfig = [
