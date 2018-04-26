@@ -81,6 +81,9 @@ class ImportService extends PSIBaseService {
 			 * G 建议采购单价
 			 * H 条形码
 			 * I 备注
+			 * J 尺寸
+			 * K 品牌
+			 
 			 */
 			// 从第2行获取数据
 			for($currentRow = 2; $currentRow <= $allRow; $currentRow ++) {
@@ -94,6 +97,8 @@ class ImportService extends PSIBaseService {
 				$indexPurchasePrice = 'G' . $currentRow;
 				$indexBarcode = 'H' . $currentRow;
 				$indexMemo = 'I' . $currentRow;
+				$indexChicun = 'J' . $currentRow;
+				$indexBrand_Code = 'K' . $currentRow;
 				// 读取到的数据，保存到数组$arr中
 				$category = $currentSheet->getCell($indexCategory)->getValue();
 				$code = $currentSheet->getCell($indexCode)->getValue();
@@ -104,6 +109,9 @@ class ImportService extends PSIBaseService {
 				$purchasePrice = $currentSheet->getCell($indexPurchasePrice)->getValue();
 				$barcode = $currentSheet->getCell($indexBarcode)->getValue();
 				$memo = $currentSheet->getCell($indexMemo)->getValue();
+				$chicun = $currentRow->getCell($indexChicun)->getValue();
+				$brandCode = $currentRow->getCell($indexBrand)->getValue();
+				
 				
 				// 如果为空则直接读取下一条记录
 				if (! $category || ! $code || ! $name || ! $unit)
@@ -174,7 +182,7 @@ class ImportService extends PSIBaseService {
 				$insertSql .= $dataSql;
 				// 数据参数加入
 				array_push($params, $id, $code, $name, $spec, $categoryId, $unitId, $salePrice, $py, 
-						$purchasePrice, $barcode, $dataOrg, $memo, $specPY);
+						$purchasePrice, $barcode, $dataOrg, $memo, $specPY, $chicun, $brandCode,);
 			}
 			
 			$db->execute(rtrim($insertSql, ','), $params);
