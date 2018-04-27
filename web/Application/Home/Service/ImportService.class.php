@@ -68,7 +68,7 @@ class ImportService extends PSIBaseService {
 			$dataOrg = $us->getLoginUserDataOrg();
 			
 			$insertSql = "insert into t_goods (id, code, name, spec, category_id, unit_id, sale_price,	py, 
-					purchase_price, bar_code, data_org, memo, spec_py) values";
+					purchase_price, bar_code, data_org, memo, spec_py, chicun, brand_code) values";
 			$dataSql = "('%s', '%s', '%s', '%s', '%s', '%s', %f, '%s', %f, '%s', '%s', '%s', '%s'),";
 			/**
 			 * 单元格定义
