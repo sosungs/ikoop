@@ -110,7 +110,7 @@ class ImportService extends PSIBaseService {
 				$barcode = $currentSheet->getCell($indexBarcode)->getValue();
 				$memo = $currentSheet->getCell($indexMemo)->getValue();
 				$chicun = $currentRow->getCell($indexChicun)->getValue();
-				$brandCode = $currentRow->getCell($indexBrand)->getValue();
+				$brandCode = $currentRow->getCell($indexBrand_Code)->getValue();
 				
 				
 				// 如果为空则直接读取下一条记录
