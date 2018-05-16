@@ -288,6 +288,26 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								sortable : false,
 								width : 60
 							}, {
+								header : "余额数量",
+								align : "right",
+								dataIndex : "balanceCount",
+								menuDisabled : true,
+								sortable : false
+							}, {
+								header : "余额平均单价",
+								align : "right",
+								xtype : "numbercolumn",
+								dataIndex : "balancePrice",
+								menuDisabled : true,
+								sortable : false
+							}, {
+								header : "余额总金额",
+								align : "right",
+								xtype : "numbercolumn",
+								dataIndex : "balanceMoney",
+								menuDisabled : true,
+								sortable : false
+							}, {
 								header : "在途数量",
 								align : "right",
 								dataIndex : "afloatCount",
@@ -307,7 +327,8 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								dataIndex : "afloatMoney",
 								menuDisabled : true,
 								sortable : false
-							}, {
+							}
+							/**{
 								header : "入库数量",
 								align : "right",
 								dataIndex : "inCount",
@@ -347,27 +368,8 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								dataIndex : "outMoney",
 								menuDisabled : true,
 								sortable : false
-							}, {
-								header : "余额数量",
-								align : "right",
-								dataIndex : "balanceCount",
-								menuDisabled : true,
-								sortable : false
-							}, {
-								header : "余额平均单价",
-								align : "right",
-								xtype : "numbercolumn",
-								dataIndex : "balancePrice",
-								menuDisabled : true,
-								sortable : false
-							}, {
-								header : "余额总金额",
-								align : "right",
-								xtype : "numbercolumn",
-								dataIndex : "balanceMoney",
-								menuDisabled : true,
-								sortable : false
-							}],
+							}, */
+							   ],
 					store : store,
 					listeners : {
 						select : {
