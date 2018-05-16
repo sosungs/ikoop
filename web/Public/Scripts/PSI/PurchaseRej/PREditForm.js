@@ -48,6 +48,12 @@ Ext.define("PSI.PurchaseRej.PREditForm", {
 						},
 						scope : me,
 						id : "buttonCancel"
+					}, "->", {
+						text : "表单通用操作帮助",
+						iconCls : "PSI-help",
+						handler : function() {
+							window.open(me.URL("/Home/Help/index?t=commBill"));
+						}
 					}],
 			layout : "border",
 			defaultFocus : "editWarehouse",
@@ -350,7 +356,7 @@ Ext.define("PSI.PurchaseRej.PREditForm", {
 					plugins : [me.__cellEditing],
 					columnLines : true,
 					columns : [Ext.create("Ext.grid.RowNumberer", {
-										text : "序号",
+										text : "",
 										width : 30
 									}), {
 								header : "商品编码",
@@ -585,7 +591,7 @@ Ext.define("PSI.PurchaseRej.PREditForm", {
 	setBillReadonly : function() {
 		var me = this;
 		me.__readonly = true;
-		me.setTitle("查看采购退货出库单");
+		me.setTitle("<span style='font-size:160%;'>查看采购退货出库单</span>");
 		Ext.getCmp("buttonSave").setDisabled(true);
 		Ext.getCmp("buttonCancel").setText("关闭");
 		Ext.getCmp("editWarehouse").setReadOnly(true);

@@ -35,6 +35,7 @@ class SaleController extends PSIBaseController {
 			$this->assign("pEdit", $us->hasPermission(FIdConst::SALE_ORDER_EDIT) ? "1" : "0");
 			$this->assign("pDelete", $us->hasPermission(FIdConst::SALE_ORDER_DELETE) ? "1" : "0");
 			$this->assign("pGenPDF", $us->hasPermission(FIdConst::SALE_ORDER_PDF) ? "1" : "0");
+			$this->assign("pPrint", $us->hasPermission(FIdConst::SALE_ORDER_PRINT) ? "1" : "0");
 			
 			$this->display();
 		} else {
@@ -60,6 +61,8 @@ class SaleController extends PSIBaseController {
 			$this->assign("pCommit", 
 					$us->hasPermission(FIdConst::WAREHOUSING_SALE_COMMIT) ? "1" : "0");
 			$this->assign("pGenPDF", $us->hasPermission(FIdConst::WAREHOUSING_SALE_PDF) ? "1" : "0");
+			$this->assign("pPrint", 
+					$us->hasPermission(FIdConst::WAREHOUSING_SALE_PRINT) ? "1" : "0");
 			
 			$this->display();
 		} else {
@@ -180,6 +183,7 @@ class SaleController extends PSIBaseController {
 			$this->assign("pCommit", 
 					$us->hasPermission(FIdConst::SALE_REJECTION_COMMIT) ? "1" : "0");
 			$this->assign("pGenPDF", $us->hasPermission(FIdConst::SALE_REJECTION_PDF) ? "1" : "0");
+			$this->assign("pPrint", $us->hasPermission(FIdConst::SALE_REJECTION_PRINT) ? "1" : "0");
 			
 			$this->display();
 		} else {
@@ -478,6 +482,54 @@ class SaleController extends PSIBaseController {
 			
 			$ws = new WSBillService();
 			$this->ajaxReturn($ws->wsBillDetailListForSRBill($params));
+		}
+	}
+
+	/**
+	 * 生成打印销售订单的页面
+	 */
+	public function genSOBillPrintPage() {
+		if (IS_POST) {
+			$params = [
+					"id" => I("post.id")
+			];
+			
+			$ss = new SOBillService();
+			$data = $ss->getSOBillDataForLodopPrint($params);
+			$this->assign("data", $data);
+			$this->display();
+		}
+	}
+
+	/**
+	 * 生成打印销售出库单的页面
+	 */
+	public function genWSBillPrintPage() {
+		if (IS_POST) {
+			$params = [
+					"id" => I("post.id")
+			];
+			
+			$ss = new WSBillService();
+			$data = $ss->getWSBillDataForLodopPrint($params);
+			$this->assign("data", $data);
+			$this->display();
+		}
+	}
+
+	/**
+	 * 生成打印销售退货入库单的页面
+	 */
+	public function genSRBillPrintPage() {
+		if (IS_POST) {
+			$params = [
+					"id" => I("post.id")
+			];
+			
+			$ss = new SRBillService();
+			$data = $ss->getSRBillDataForLodopPrint($params);
+			$this->assign("data", $data);
+			$this->display();
 		}
 	}
 }

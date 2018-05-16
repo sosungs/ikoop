@@ -33,7 +33,6 @@ Ext.define("PSI.Sale.WSEditForm", {
 			tbar : [{
 						id : "buttonToolbox",
 						text : "工具",
-						iconCls : "PSI-button-toolbox",
 						menu : [{
 									text : "临时保存销售出库单",
 									scope : me,
@@ -49,6 +48,7 @@ Ext.define("PSI.Sale.WSEditForm", {
 						xtype : "displayfield"
 					}, {
 						xtype : "textfield",
+						cls : "PSI-toolbox",
 						id : "editBarcode",
 						listeners : {
 							specialkey : {
@@ -76,6 +76,12 @@ Ext.define("PSI.Sale.WSEditForm", {
 						},
 						scope : me,
 						id : "buttonCancel"
+					}, "->", {
+						text : "表单通用操作帮助",
+						iconCls : "PSI-help",
+						handler : function() {
+							window.open(me.URL("/Home/Help/index?t=commBill"));
+						}
 					}],
 			items : [{
 						region : "center",
@@ -536,7 +542,7 @@ Ext.define("PSI.Sale.WSEditForm", {
 					plugins : [me.__cellEditing],
 					columnLines : true,
 					columns : [Ext.create("Ext.grid.RowNumberer", {
-										text : "序号",
+										text : "",
 										width : 30
 									}), {
 								header : "商品编码",
@@ -806,7 +812,7 @@ Ext.define("PSI.Sale.WSEditForm", {
 	setBillReadonly : function() {
 		var me = this;
 		me.__readonly = true;
-		me.setTitle("查看销售出库单");
+		me.setTitle("<span style='font-size:160%'>查看销售出库单</span>");
 		Ext.getCmp("buttonToolbox").setDisabled(true);
 		Ext.getCmp("displayFieldBarcode").setDisabled(true);
 		Ext.getCmp("editBarcode").setDisabled(true);

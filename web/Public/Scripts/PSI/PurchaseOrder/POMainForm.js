@@ -55,48 +55,6 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 
 		me.callParent(arguments);
 
-		var bAdd = me.getPermission().add == "1";
-		Ext.getCmp("buttonAdd").setVisible(bAdd);
-
-		var bEdit = me.getPermission().edit == "1";
-		Ext.getCmp("buttonEdit").setVisible(bEdit);
-
-		var bDelete = me.getPermission().del == "1";
-		Ext.getCmp("buttonDelete").setVisible(bDelete);
-
-		var bCloseBill = me.getPermission().closeBill == "1";
-		Ext.getCmp("buttonCloseBill").setVisible(bCloseBill);
-
-		var bGenPDF = me.getPermission().genPDF == "1";
-		Ext.getCmp("buttonPDF").setVisible(bGenPDF);
-
-		var bConfirm = me.getPermission().confirm == "1";
-		var tb1 = Ext.getCmp("tbseparator1");
-		if (tb1) {
-			tb1.setVisible(bConfirm);
-		}
-
-		var buttonCommit = Ext.getCmp("buttonCommit");
-		if (buttonCommit) {
-			buttonCommit.setVisible(bConfirm);
-		}
-
-		var buttonCancelConfirm = Ext.getCmp("buttonCancelConfirm");
-		if (buttonCancelConfirm) {
-			buttonCancelConfirm.setVisible(bConfirm);
-		}
-
-		var bGenPWBill = me.getPermission().genPWBill == "1";
-		var buttonGenPWBill = Ext.getCmp("buttonGenPWBill");
-		if (buttonGenPWBill) {
-			buttonGenPWBill.setVisible(bGenPWBill);
-		}
-
-		var tb2 = Ext.getCmp("tbseparator2");
-		if (tb2) {
-			tb2.setVisible(bGenPWBill);
-		}
-
 		me.refreshMainGrid();
 	},
 
@@ -109,40 +67,58 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 					text : "新建采购订单",
 					scope : me,
 					handler : me.onAddBill,
+					hidden : me.getPermission().add == "0",
 					id : "buttonAdd"
-				}, "-", {
+				}, {
+					hidden : me.getPermission().add == "0",
+					xtype : "tbseparator"
+				}, {
 					text : "编辑采购订单",
 					scope : me,
 					handler : me.onEditBill,
+					hidden : me.getPermission().edit == "0",
 					id : "buttonEdit"
-				}, "-", {
+				}, {
+					hidden : me.getPermission().edit == "0",
+					xtype : "tbseparator"
+				}, {
 					text : "删除采购订单",
 					scope : me,
 					handler : me.onDeleteBill,
+					hidden : me.getPermission().del == "0",
 					id : "buttonDelete"
 				}, {
 					xtype : "tbseparator",
+					hidden : me.getPermission().del == "0",
 					id : "tbseparator1"
 				}, {
 					text : "审核",
 					scope : me,
 					handler : me.onCommit,
+					hidden : me.getPermission().confirm == "0",
 					id : "buttonCommit"
 				}, {
 					text : "取消审核",
 					scope : me,
 					handler : me.onCancelConfirm,
+					hidden : me.getPermission().confirm == "0",
 					id : "buttonCancelConfirm"
 				}, {
 					xtype : "tbseparator",
+					hidden : me.getPermission().confirm == "0",
 					id : "tbseparator2"
 				}, {
 					text : "生成采购入库单",
 					scope : me,
 					handler : me.onGenPWBill,
+					hidden : me.getPermission().genPWBill == "0",
 					id : "buttonGenPWBill"
-				}, "-", {
+				}, {
+					hidden : me.getPermission().genPWBill == "0",
+					xtype : "tbseparator"
+				}, {
 					text : "关闭订单",
+					hidden : me.getPermission().closeBill == "0",
 					id : "buttonCloseBill",
 					menu : [{
 								text : "关闭采购订单",
@@ -155,8 +131,12 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 								scope : me,
 								handler : me.onCancelClosedPO
 							}]
-				}, "-", {
+				}, {
+					hidden : me.getPermission().closeBill == "0",
+					xtype : "tbseparator"
+				}, {
 					text : "导出",
+					hidden : me.getPermission().genPDF == "0",
 					menu : [{
 								text : "单据生成pdf",
 								id : "buttonPDF",
@@ -164,8 +144,12 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 								scope : me,
 								handler : me.onPDF
 							}]
-				}, "-", {
+				}, {
+					hidden : me.getPermission().genPDF == "0",
+					xtype : "tbseparator"
+				}, {
 					text : "打印",
+					hidden : me.getPermission().print == "0",
 					menu : [{
 								text : "打印预览",
 								iconCls : "PSI-button-print-preview",
@@ -177,7 +161,10 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 								scope : me,
 								handler : me.onPrint
 							}]
-				}, "-", {
+				}, {
+					xtype : "tbseparator",
+					hidden : me.getPermission().print == "0"
+				}, {
 					text : "帮助",
 					handler : function() {
 						window.open(me.URL("/Home/Help/index?t=pobill"));
@@ -537,7 +524,9 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 							scope : me
 						},
 						itemdblclick : {
-							fn : me.onEditBill,
+							fn : me.getPermission().edit == "1"
+									? me.onEditBill
+									: Ext.emptyFn,
 							scope : me
 						}
 					}
@@ -1357,16 +1346,114 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 		me.confirm(info, funcConfirm);
 	},
 
+	/**
+	 * 打印预览
+	 */
 	onPrintPreview : function() {
 		var lodop = getLodop();
 		if (!lodop) {
 			PSI.MsgBox.showInfo("没有安装Lodop控件，无法打印");
 			return;
 		}
-		PSI.MsgBox.showInfo("TODO");
+
+		var me = this;
+
+		var item = me.getMainGrid().getSelectionModel().getSelection();
+		if (item == null || item.length != 1) {
+			me.showInfo("没有选择要打印的采购订单");
+			return;
+		}
+		var bill = item[0];
+
+		var el = Ext.getBody();
+		el.mask("数据加载中...");
+		var r = {
+			url : PSI.Const.BASE_URL + "Home/Purchase/genPOBillPrintPage",
+			params : {
+				id : bill.get("id")
+			},
+			callback : function(options, success, response) {
+				el.unmask();
+
+				if (success) {
+					var data = response.responseText;
+					me.previewPOBill(bill.get("ref"), data);
+				}
+			}
+		};
+		me.ajax(r);
 	},
 
+	PRINT_PAGE_WIDTH : "200mm",
+	PRINT_PAGE_HEIGHT : "95mm",
+
+	previewPOBill : function(ref, data) {
+		var me = this;
+
+		var lodop = getLodop();
+		if (!lodop) {
+			PSI.MsgBox.showInfo("Lodop打印控件没有正确安装");
+			return;
+		}
+
+		lodop.PRINT_INIT("采购订单" + ref);
+		lodop.SET_PRINT_PAGESIZE(1, me.PRINT_PAGE_WIDTH, me.PRINT_PAGE_HEIGHT,
+				"");
+		lodop.ADD_PRINT_HTM("0mm", "0mm", "100%", "100%", data);
+		var result = lodop.PREVIEW("_blank");
+	},
+
+	/**
+	 * 直接打印
+	 */
 	onPrint : function() {
-		PSI.MsgBox.showInfo("TODO");
+		var lodop = getLodop();
+		if (!lodop) {
+			PSI.MsgBox.showInfo("没有安装Lodop控件，无法打印");
+			return;
+		}
+
+		var me = this;
+
+		var item = me.getMainGrid().getSelectionModel().getSelection();
+		if (item == null || item.length != 1) {
+			me.showInfo("没有选择要打印的采购订单");
+			return;
+		}
+		var bill = item[0];
+
+		var el = Ext.getBody();
+		el.mask("数据加载中...");
+		var r = {
+			url : PSI.Const.BASE_URL + "Home/Purchase/genPOBillPrintPage",
+			params : {
+				id : bill.get("id")
+			},
+			callback : function(options, success, response) {
+				el.unmask();
+
+				if (success) {
+					var data = response.responseText;
+					me.printPOBill(bill.get("ref"), data);
+				}
+			}
+		};
+		me.ajax(r);
+	},
+
+	printPOBill : function(ref, data) {
+		var me = this;
+
+		var lodop = getLodop();
+		if (!lodop) {
+			PSI.MsgBox.showInfo("Lodop打印控件没有正确安装");
+			return;
+		}
+
+		lodop.PRINT_INIT("采购订单" + ref);
+		lodop.SET_PRINT_PAGESIZE(1, me.PRINT_PAGE_WIDTH, me.PRINT_PAGE_HEIGHT,
+				"");
+		lodop.ADD_PRINT_HTM("0mm", "0mm", "100%", "100%", data);
+		var result = lodop.PRINT();
 	}
 });

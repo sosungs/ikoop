@@ -32,6 +32,7 @@ class InvCheckController extends PSIBaseController {
 			$this->assign("pCommit", 
 					$us->hasPermission(FIdConst::INVENTORY_CHECK_COMMIT) ? "1" : "0");
 			$this->assign("pGenPDF", $us->hasPermission(FIdConst::INVENTORY_CHECK_PDF) ? "1" : "0");
+			$this->assign("pPrint", $us->hasPermission(FIdConst::INVENTORY_CHECK_PRINT) ? "1" : "0");
 			
 			$this->display();
 		} else {
@@ -145,5 +146,21 @@ class InvCheckController extends PSIBaseController {
 		
 		$ws = new ICBillService();
 		$ws->pdf($params);
+	}
+
+	/**
+	 * 生成打印盘点单的页面
+	 */
+	public function genICBillPrintPage() {
+		if (IS_POST) {
+			$params = [
+					"id" => I("post.id")
+			];
+			
+			$ss = new ICBillService();
+			$data = $ss->getICBillDataForLodopPrint($params);
+			$this->assign("data", $data);
+			$this->display();
+		}
 	}
 }

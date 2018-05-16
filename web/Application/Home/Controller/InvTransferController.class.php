@@ -34,6 +34,8 @@ class InvTransferController extends PSIBaseController {
 					$us->hasPermission(FIdConst::INVENTORY_TRANSFER_COMMIT) ? "1" : "0");
 			$this->assign("pGenPDF", 
 					$us->hasPermission(FIdConst::INVENTORY_TRANSFER_PDF) ? "1" : "0");
+			$this->assign("pPrint", 
+					$us->hasPermission(FIdConst::INVENTORY_TRANSFER_PRINT) ? "1" : "0");
 			
 			$this->display();
 		} else {
@@ -149,5 +151,21 @@ class InvTransferController extends PSIBaseController {
 		
 		$ws = new ITBillService();
 		$ws->pdf($params);
+	}
+
+	/**
+	 * 生成打印调拨单的页面
+	 */
+	public function genITBillPrintPage() {
+		if (IS_POST) {
+			$params = [
+					"id" => I("post.id")
+			];
+			
+			$ss = new ITBillService();
+			$data = $ss->getITBillDataForLodopPrint($params);
+			$this->assign("data", $data);
+			$this->display();
+		}
 	}
 }

@@ -1,3 +1,20 @@
+h1, h2, h3, p {
+	color: #262626;
+	font-family: "Monospaced Number", "Chinese Quote", -apple-system,
+		BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
+		"Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica,
+		Arial, sans-serif;
+}
+
+.PSI-about p {
+	font-size: 13px;
+	color: #262626;
+	font-family: "Monospaced Number", "Chinese Quote", -apple-system,
+		BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
+		"Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica,
+		Arial, sans-serif;
+}
+
 .x-panel-header-text-container-default {
 	font-size: 12px;
 	font-family: "Monospaced Number", "Chinese Quote", -apple-system,
@@ -12,6 +29,10 @@
 		BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
 		"Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica,
 		Arial, sans-serif;
+}
+
+.x-tree-node-text {
+	font-size: 13px;
 }
 
 .x-mask-msg div {
@@ -238,8 +259,21 @@
 	color: #196d6d;
 }
 
+.x-btn-default-toolbar-small-over {
+	background-image: none;
+}
+
+.x-btn-default-toolbar-small-menu-active,
+	.x-btn-default-toolbar-small-pressed {
+	background-image: none;
+}
+
 .x-menu-item-text {
 	color: #196d6d;
+}
+
+.x-menu-item-active {
+	background-image: none;
 }
 
 .x-column-header-text {
@@ -273,6 +307,7 @@
 }
 
 .x-form-cb-label {
+	color: #262626;
 	font-family: "Monospaced Number", "Chinese Quote", -apple-system,
 		BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
 		"Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Helvetica,
@@ -323,12 +358,18 @@
 	vertical-align: top;
 }
 
+.PSI-recent-fid .x-grid-row td, .x-grid-summary-row td {
+	line-height: 26px;
+	vertical-align: top;
+}
+
 .x-grid-row-summary .x-grid-cell, .x-grid-row-summary .x-grid-rowwrap,
 	.x-grid-row-summary .x-grid-cell-rowbody {
 	font-size: 13px;
 }
 
 .x-form-text {
+	color: #262626;
 	font-size: 13px;
 	background-image: none;
 	border-color: transparent transparent #adc6ff transparent;
@@ -360,6 +401,7 @@
 }
 
 .x-list-plain {
+	color: #262626;
 	font-size: 13px;
 	font-family: "Monospaced Number", "Chinese Quote", -apple-system,
 		BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC",
@@ -367,8 +409,17 @@
 		Arial, sans-serif;
 }
 
+.x-datepicker-header {
+	background-color: white;
+	background-image: none;
+}
+
+.x-datepicker-footer {
+	background-image: none;
+}
+
 ::-webkit-scrollbar {
-	width: 12px;
+	width: 10px;
 	height: 10px;
 	background-color: #f5f5f5;
 }

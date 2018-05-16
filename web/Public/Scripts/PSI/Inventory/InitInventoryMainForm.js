@@ -60,7 +60,10 @@ Ext.define("PSI.Inventory.InitInventoryMainForm", {
 
 		var gridInitInv = Ext.create("Ext.grid.Panel", {
 					cls : "PSI",
-					title : "请选择一个仓库",
+					header : {
+						height : 30,
+						title : me.formatGridHeaderTitle("请选择一个仓库")
+					},
 					columnLines : true,
 					columns : [{
 								header : "商品编码",
@@ -159,7 +162,10 @@ Ext.define("PSI.Inventory.InitInventoryMainForm", {
 
 		var gridWarehouse = Ext.create("Ext.grid.Panel", {
 					cls : "PSI",
-					title : "仓库",
+					header : {
+						height : 30,
+						title : me.formatGridHeaderTitle("仓库")
+					},
 					forceFit : true,
 					columnLines : true,
 					columns : [{
@@ -167,7 +173,7 @@ Ext.define("PSI.Inventory.InitInventoryMainForm", {
 								dataIndex : "code",
 								menuDisabled : true,
 								sortable : false,
-								width : 60
+								width : 70
 							}, {
 								header : "仓库名称",
 								dataIndex : "name",
@@ -202,7 +208,7 @@ Ext.define("PSI.Inventory.InitInventoryMainForm", {
 
 		Ext.apply(me, {
 					tbar : [{
-								text : "建账",
+								text : "录入建账数据",
 								scope : me,
 								handler : me.onInitInv
 							}, "-", {
@@ -232,6 +238,11 @@ Ext.define("PSI.Inventory.InitInventoryMainForm", {
 								}
 							}],
 					items : [{
+								region : "north",
+								height : 2,
+								border : 0,
+								bodyStyle : "background-color:#f5f5f5"
+							}, {
 								region : "west",
 								xtype : "panel",
 								layout : "fit",
@@ -284,16 +295,17 @@ Ext.define("PSI.Inventory.InitInventoryMainForm", {
 		var grid = me.gridInitInv;
 		var item = me.gridWarehouse.getSelectionModel().getSelection();
 		if (item == null || item.length != 1) {
-			grid.setTitle("请选一个仓库");
+			grid.setTitle(me.formatGridHeaderTitle("请选一个仓库"));
 			return;
 		}
 
 		var warehouse = item[0];
-		grid.setTitle("仓库: " + warehouse.get("name"));
+		grid.setTitle(me.formatGridHeaderTitle("仓库: " + warehouse.get("name")));
 
 		me.__lastId = id;
 		Ext.getCmp("pagingToolbar").doRefresh()
 	},
+
 	onInitInv : function() {
 		var item = this.gridWarehouse.getSelectionModel().getSelection();
 		if (item == null || item.length != 1) {

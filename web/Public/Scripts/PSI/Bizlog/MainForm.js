@@ -18,7 +18,27 @@ Ext.define("PSI.Bizlog.MainForm", {
 
 		var store = me.getMainGrid().getStore();
 
-		var buttons = [{
+		var buttons = ["登录名", {
+					xtype : "textfield",
+					id : "editLoginName",
+					cls : "PSI-toolbox",
+					width : 90
+
+				}, "IP", {
+					xtype : "textfield",
+					id : "editIP",
+					cls : "PSI-toolbox",
+					width : 90
+				}, " ", {
+					text : "查询",
+					handler : me.onRefresh,
+					scope : me,
+					iconCls : "PSI-button-refresh"
+				}, "-", {
+					text : "清空查询条件",
+					handler : me.onClearQuery,
+					scope : me
+				}, "-", " ", {
 					cls : "PSI-toolbox",
 					id : "pagingToobar",
 					xtype : "pagingtoolbar",
@@ -53,11 +73,6 @@ Ext.define("PSI.Bizlog.MainForm", {
 				}, {
 					xtype : "displayfield",
 					value : "条记录"
-				}, "-", {
-					text : "刷新",
-					handler : me.onRefresh,
-					scope : me,
-					iconCls : "PSI-button-refresh"
 				}, "-", {
 					text : "帮助",
 					handler : function() {
@@ -117,6 +132,9 @@ Ext.define("PSI.Bizlog.MainForm", {
 						}
 					},
 					autoLoad : true
+				});
+		store.on("beforeload", function() {
+					store.proxy.extraParams = me.getQueryParam();
 				});
 
 		me.__mainGrid = Ext.create("Ext.grid.Panel", {
@@ -190,8 +208,11 @@ Ext.define("PSI.Bizlog.MainForm", {
 	 * 刷新
 	 */
 	onRefresh : function() {
+		var me = this;
+		
+		me.getMainGrid().getStore().currentPage = 1;
 		Ext.getCmp("pagingToobar").doRefresh();
-		this.focus();
+		me.focus();
 	},
 
 	/**
@@ -232,5 +253,23 @@ Ext.define("PSI.Bizlog.MainForm", {
 	onUnitTest : function() {
 		var url = PSI.Const.BASE_URL + "UnitTest";
 		window.open(url);
+	},
+
+	getQueryParam : function() {
+		return {
+			loginName : Ext.getCmp("editLoginName").getValue(),
+			ip : Ext.getCmp("editIP").getValue()
+		};
+	},
+
+	onClearQuery : function() {
+		var me = this;
+
+		Ext.getCmp("editLoginName").setValue(null);
+		Ext.getCmp("editIP").setValue(null);
+
+		me.getMainGrid().getStore().currentPage = 1;
+
+		me.onRefresh();
 	}
 });

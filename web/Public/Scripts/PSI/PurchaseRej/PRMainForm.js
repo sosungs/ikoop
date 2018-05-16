@@ -49,21 +49,6 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 
 		me.callParent(arguments);
 
-		var bAdd = me.getPermission().add == "1";
-		Ext.getCmp("buttonAdd").setVisible(bAdd);
-
-		var bEdit = me.getPermission().edit == "1";
-		Ext.getCmp("buttonEdit").setVisible(bEdit);
-
-		var bDel = me.getPermission().del == "1";
-		Ext.getCmp("buttonDelete").setVisible(bDel);
-
-		var bCommit = me.getPermission().commit == "1";
-		Ext.getCmp("buttonCommit").setVisible(bCommit);
-
-		var bPDF = me.getPermission().genPDF == "1";
-		Ext.getCmp("buttonPDF").setVisible(bPDF);
-
 		me.refreshMainGrid();
 	},
 
@@ -72,29 +57,70 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 		return [{
 					text : "新建采购退货出库单",
 					id : "buttonAdd",
+					hidden : me.getPermission().add == "0",
 					scope : me,
 					handler : me.onAddBill
-				}, "-", {
+				}, {
+					xtype : "tbseparator",
+					hidden : me.getPermission().add == "0"
+				}, {
 					text : "编辑采购退货出库单",
 					id : "buttonEdit",
+					hidden : me.getPermission().edit == "0",
 					scope : me,
 					handler : me.onEditBill
-				}, "-", {
+				}, {
+					xtype : "tbseparator",
+					hidden : me.getPermission().edit == "0"
+				}, {
 					text : "删除采购退货出库单",
 					id : "buttonDelete",
+					hidden : me.getPermission().del == "0",
 					scope : me,
 					handler : me.onDeleteBill
-				}, "-", {
-					text : "提交采购退货出库单",
+				}, {
+					xtype : "tbseparator",
+					hidden : me.getPermission().del == "0"
+				}, {
+					text : "提交出库",
 					id : "buttonCommit",
+					hidden : me.getPermission().commit == "0",
 					scope : me,
 					handler : me.onCommit
-				}, "-", {
-					text : "单据生成pdf",
-					id : "buttonPDF",
-					scope : me,
-					handler : me.onPDF
-				}, "-", {
+				}, {
+					xtype : "tbseparator",
+					hidden : me.getPermission().commit == "0"
+				}, {
+					text : "导出",
+					hidden : me.getPermission().genPDF == "0",
+					menu : [{
+								text : "单据生成pdf",
+								id : "buttonPDF",
+								iconCls : "PSI-button-pdf",
+								scope : me,
+								handler : me.onPDF
+							}]
+				}, {
+					xtype : "tbseparator",
+					hidden : me.getPermission().genPDF == "0"
+				}, {
+					text : "打印",
+					hidden : me.getPermission().print == "0",
+					menu : [{
+								text : "打印预览",
+								iconCls : "PSI-button-print-preview",
+								scope : me,
+								handler : me.onPrintPreview
+							}, "-", {
+								text : "直接打印",
+								iconCls : "PSI-button-print",
+								scope : me,
+								handler : me.onPrint
+							}]
+				}, {
+					xtype : "tbseparator",
+					hidden : me.getPermission().print == "0"
+				}, {
 					text : "帮助",
 					handler : function() {
 						window.open(me.URL("/Home/Help/index?t=prbill"));
@@ -221,7 +247,7 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 		Ext.getCmp("buttonCommit").setDisabled(true);
 
 		var gridDetail = me.getDetailGrid();
-		gridDetail.setTitle("采购退货出库单明细");
+		gridDetail.setTitle(me.formatGridHeaderTitle("采购退货出库单明细"));
 		gridDetail.getStore().removeAll();
 		Ext.getCmp("pagingToobar").doRefresh();
 		me.__lastId = id;
@@ -483,7 +509,9 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 							scope : me
 						},
 						itemdblclick : {
-							fn : me.onEditBill,
+							fn : me.getPermission().edit == "1"
+									? me.onEditBill
+									: Ext.emptyFn,
 							scope : me
 						}
 					},
@@ -552,7 +580,10 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 					viewConfig : {
 						enableTextSelection : true
 					},
-					title : "采购退货出库单明细",
+					header : {
+						height : 30,
+						title : me.formatGridHeaderTitle("采购退货出库单明细")
+					},
 					columnLines : true,
 					columns : [Ext.create("Ext.grid.RowNumberer", {
 										text : "序号",
@@ -630,7 +661,7 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 
 	onMainGridSelect : function() {
 		var me = this;
-		me.getDetailGrid().setTitle("采购退货出库单明细");
+		me.getDetailGrid().setTitle(me.formatGridHeaderTitle("采购退货出库单明细"));
 		var item = me.getMainGrid().getSelectionModel().getSelection();
 		if (item == null || item.length != 1) {
 			Ext.getCmp("buttonEdit").setDisabled(true);
@@ -658,7 +689,7 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 
 	refreshDetailGrid : function(id) {
 		var me = this;
-		me.getDetailGrid().setTitle("采购退货出库单明细");
+		me.getDetailGrid().setTitle(me.formatGridHeaderTitle("采购退货出库单明细"));
 		var grid = me.getMainGrid();
 		var item = grid.getSelectionModel().getSelection();
 		if (item == null || item.length != 1) {
@@ -667,8 +698,8 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 		var bill = item[0];
 
 		grid = me.getDetailGrid();
-		grid.setTitle("单号: " + bill.get("ref") + " 出库仓库: "
-				+ bill.get("warehouseName"));
+		grid.setTitle(me.formatGridHeaderTitle("单号: " + bill.get("ref")
+				+ " 出库仓库: " + bill.get("warehouseName")));
 		var el = grid.getEl();
 		el.mask(PSI.Const.LOADING);
 		me.ajax({
@@ -788,5 +819,110 @@ Ext.define("PSI.PurchaseRej.PRMainForm", {
 		var url = PSI.Const.BASE_URL + "Home/PurchaseRej/prBillPdf?ref="
 				+ bill.get("ref");
 		window.open(url);
+	},
+
+	onPrintPreview : function() {
+		var lodop = getLodop();
+		if (!lodop) {
+			PSI.MsgBox.showInfo("没有安装Lodop控件，无法打印");
+			return;
+		}
+
+		var me = this;
+
+		var item = me.getMainGrid().getSelectionModel().getSelection();
+		if (item == null || item.length != 1) {
+			me.showInfo("没有选择要打印的采购退货出库单");
+			return;
+		}
+		var bill = item[0];
+
+		var el = Ext.getBody();
+		el.mask("数据加载中...");
+		var r = {
+			url : PSI.Const.BASE_URL + "Home/PurchaseRej/genPRBillPrintPage",
+			params : {
+				id : bill.get("id")
+			},
+			callback : function(options, success, response) {
+				el.unmask();
+
+				if (success) {
+					var data = response.responseText;
+					me.previewPRBill(bill.get("ref"), data);
+				}
+			}
+		};
+		me.ajax(r);
+	},
+
+	PRINT_PAGE_WIDTH : "200mm",
+	PRINT_PAGE_HEIGHT : "95mm",
+
+	previewPRBill : function(ref, data) {
+		var me = this;
+
+		var lodop = getLodop();
+		if (!lodop) {
+			PSI.MsgBox.showInfo("Lodop打印控件没有正确安装");
+			return;
+		}
+
+		lodop.PRINT_INIT("采购退货出库单" + ref);
+		lodop.SET_PRINT_PAGESIZE(1, me.PRINT_PAGE_WIDTH, me.PRINT_PAGE_HEIGHT,
+				"");
+		lodop.ADD_PRINT_HTM("0mm", "0mm", "100%", "100%", data);
+		var result = lodop.PREVIEW("_blank");
+	},
+
+	onPrint : function() {
+		var lodop = getLodop();
+		if (!lodop) {
+			PSI.MsgBox.showInfo("没有安装Lodop控件，无法打印");
+			return;
+		}
+
+		var me = this;
+
+		var item = me.getMainGrid().getSelectionModel().getSelection();
+		if (item == null || item.length != 1) {
+			me.showInfo("没有选择要打印的采购退货出库单");
+			return;
+		}
+		var bill = item[0];
+
+		var el = Ext.getBody();
+		el.mask("数据加载中...");
+		var r = {
+			url : PSI.Const.BASE_URL + "Home/PurchaseRej/genPRBillPrintPage",
+			params : {
+				id : bill.get("id")
+			},
+			callback : function(options, success, response) {
+				el.unmask();
+
+				if (success) {
+					var data = response.responseText;
+					me.printPRBill(bill.get("ref"), data);
+				}
+			}
+		};
+		me.ajax(r);
+	},
+
+	printPRBill : function(ref, data) {
+		var me = this;
+
+		var lodop = getLodop();
+		if (!lodop) {
+			PSI.MsgBox.showInfo("Lodop打印控件没有正确安装");
+			return;
+		}
+
+		lodop.PRINT_INIT("采购入库单" + ref);
+		lodop.SET_PRINT_PAGESIZE(1, me.PRINT_PAGE_WIDTH, me.PRINT_PAGE_HEIGHT,
+				"");
+		lodop.ADD_PRINT_HTM("0mm", "0mm", "100%", "100%", data);
+		var result = lodop.PRINT();
 	}
 });

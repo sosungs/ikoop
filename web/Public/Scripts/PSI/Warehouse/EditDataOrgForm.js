@@ -12,7 +12,14 @@ Ext.define("PSI.Warehouse.EditDataOrgForm", {
 
 		var entity = me.getEntity();
 
-		var buttons = [];
+		var buttons = [{
+					text : "数据域的使用帮助",
+					iconCls : "PSI-help",
+					handler : function() {
+						var url = me.URL("/Home/Help/index?t=dataOrg")
+						window.open(url);
+					}
+				}, "->"];
 
 		var btn = {
 			text : "保存",
@@ -34,18 +41,23 @@ Ext.define("PSI.Warehouse.EditDataOrgForm", {
 		};
 		buttons.push(btn);
 
+		var logoHtml = "<img style='float:left;margin:10px 10px 0px 20px;width:48px;height:48px;' src='"
+				+ PSI.Const.BASE_URL
+				+ "Public/Images/edit-form-data.png'></img>"
+				+ "<h2 style='color:#196d83'>修改数据域</h2>"
+				+ "<p style='color:#196d83'>点击帮助按钮可以了解更多数据域的应用场景</p>";
+
 		Ext.apply(me, {
 			header : {
-				title : me.formatTitle("修改数据域"),
-				height : 40,
-				iconCls : "PSI-button-dataorg"
+				title : me.formatTitle(PSI.Const.PROD_NAME),
+				height : 40
 			},
 			modal : true,
 			resizable : false,
 			onEsc : Ext.emptyFn,
 			width : 400,
-			height : 220,
-			layout : "fit",
+			height : 310,
+			layout : "border",
 			listeners : {
 				show : {
 					fn : me.onWndShow,
@@ -57,6 +69,13 @@ Ext.define("PSI.Warehouse.EditDataOrgForm", {
 				}
 			},
 			items : [{
+						region : "north",
+						height : 90,
+						border : 0,
+						html : logoHtml
+					}, {
+						region : "center",
+						border : 0,
 						id : "PSI_Warehouse_EditDataOrgForm_editForm",
 						xtype : "form",
 						layout : {
@@ -170,9 +189,9 @@ Ext.define("PSI.Warehouse.EditDataOrgForm", {
 
 	onWndClose : function() {
 		var me = this;
-		
+
 		Ext.get(window).un('beforeunload', me.onWindowBeforeUnload);
-		
+
 		if (me.__lastId) {
 			if (me.getParentForm()) {
 				me.getParentForm().freshGrid(me.__lastId);
@@ -182,9 +201,9 @@ Ext.define("PSI.Warehouse.EditDataOrgForm", {
 
 	onWndShow : function() {
 		var me = this;
-		
+
 		Ext.get(window).on('beforeunload', me.onWindowBeforeUnload);
-		
+
 		me.editDataOrg.focus();
 	}
 });

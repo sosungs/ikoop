@@ -85,6 +85,11 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								}
 							}],
 					items : [{
+								region : "north",
+								height : 2,
+								border : 0,
+								bodyStyle : "background-color:#f5f5f5"
+							}, {
 								id : "panelWarehouse",
 								region : "west",
 								layout : "fit",
@@ -97,6 +102,7 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 							}, {
 								region : "center",
 								layout : "border",
+								border : 0,
 								items : [{
 											region : "center",
 											layout : "fit",
@@ -104,7 +110,11 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 											items : [me.getInventoryGrid()]
 										}, {
 											id : "panelDetail",
-											title : "明细账",
+											header : {
+												height : 30,
+												title : me
+														.formatGridHeaderTitle("明细账")
+											},
 											cls : "PSI",
 											tools : [{
 												type : "close",
@@ -140,7 +150,10 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 
 		me.__warehouseGrid = Ext.create("Ext.grid.Panel", {
 					cls : "PSI",
-					title : "仓库",
+					header : {
+						height : 30,
+						title : me.formatGridHeaderTitle("仓库")
+					},
 					tools : [{
 								type : "close",
 								handler : function() {
@@ -230,6 +243,10 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 
 		me.__inventoryGrid = Ext.create("Ext.grid.Panel", {
 					cls : "PSI",
+					header : {
+						height : 30,
+						title : me.formatGridHeaderTitle("总账")
+					},
 					viewConfig : {
 						enableTextSelection : true
 					},
@@ -250,8 +267,18 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								menuDisabled : true,
 								sortable : false
 							}, {
+								header : "品牌标识",
+								dataIndex : "brandName",
+								menuDisabled : true,
+								sortable : false
+							}, {
 								header : "规格型号",
 								dataIndex : "goodsSpec",
+								menuDisabled : true,
+								sortable : false
+							}, {
+								header : "尺寸",
+								dataIndex : "chiCun",
 								menuDisabled : true,
 								sortable : false
 							}, {
@@ -445,7 +472,7 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 					columns : [Ext.create("Ext.grid.RowNumberer", {
 										text : "序号",
 										width : 40
-									}), {
+									}), /*** {
 								header : "商品编码",
 								dataIndex : "goodsCode",
 								menuDisabled : true,
@@ -460,7 +487,7 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								dataIndex : "goodsSpec",
 								menuDisabled : true,
 								sortable : false
-							}, {
+							}, */{
 								header : "商品单位",
 								dataIndex : "unitName",
 								menuDisabled : true,
@@ -619,7 +646,8 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 		var warehouse = item[0];
 
 		var grid = me.getInventoryGrid();
-		grid.setTitle("仓库 [" + warehouse.get("name") + "] 的总账");
+		grid.setTitle(me.formatGridHeaderTitle("仓库 [" + warehouse.get("name")
+				+ "] 的总账"));
 
 		grid.getStore().loadPage(1);
 	},

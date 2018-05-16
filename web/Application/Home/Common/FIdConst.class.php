@@ -335,6 +335,11 @@ class FIdConst {
 	const PURCHASE_WAREHOUSE_CAN_VIEW_PRICE = "2001-06";
 	
 	/**
+	 * 采购入库 - 打印
+	 */
+	const PURCHASE_WAREHOUSE_PRINT = "2001-07";
+	
+	/**
 	 * 库存账查询
 	 */
 	const INVENTORY_QUERY = "2003";
@@ -380,6 +385,11 @@ class FIdConst {
 	const WAREHOUSING_SALE_PDF = "2002-06";
 	
 	/**
+	 * 销售出库 - 打印
+	 */
+	const WAREHOUSING_SALE_PRINT = "2002-07";
+	
+	/**
 	 * 销售退货入库
 	 */
 	const SALE_REJECTION = "2006";
@@ -408,6 +418,11 @@ class FIdConst {
 	 * 销售退货入库 - 单据生成PDF
 	 */
 	const SALE_REJECTION_PDF = "2006-05";
+	
+	/**
+	 * 销售退货入库 - 打印
+	 */
+	const SALE_REJECTION_PRINT = "2006-06";
 	
 	/**
 	 * 业务设置
@@ -445,6 +460,11 @@ class FIdConst {
 	const INVENTORY_TRANSFER_PDF = "2009-05";
 	
 	/**
+	 * 库间调拨 - 打印
+	 */
+	const INVENTORY_TRANSFER_PRINT = "2009-06";
+	
+	/**
 	 * 库存盘点
 	 */
 	const INVENTORY_CHECK = "2010";
@@ -475,6 +495,11 @@ class FIdConst {
 	const INVENTORY_CHECK_PDF = "2010-05";
 	
 	/**
+	 * 库存盘点 - 打印
+	 */
+	const INVENTORY_CHECK_PRINT = "2010-06";
+	
+	/**
 	 * 采购退货出库
 	 */
 	const PURCHASE_REJECTION = "2007";
@@ -503,6 +528,11 @@ class FIdConst {
 	 * 采购退货出库 - 单据生成PDF
 	 */
 	const PURCHASE_REJECTION_PDF = "2007-05";
+	
+	/**
+	 * 采购退货出库 - 打印
+	 */
+	const PURCHASE_REJECTION_PRINT = "2007-06";
 	
 	/**
 	 * 首页-销售看板
@@ -640,6 +670,11 @@ class FIdConst {
 	const PURCHASE_ORDER_PDF = "2027-07";
 	
 	/**
+	 * 采购订单 - 打印
+	 */
+	const PURCHASE_ORDER_PRINT = "2027-08";
+	
+	/**
 	 * 销售订单
 	 */
 	const SALE_ORDER = "2028";
@@ -675,6 +710,11 @@ class FIdConst {
 	const SALE_ORDER_PDF = "2028-06";
 	
 	/**
+	 * 销售订单 - 打印
+	 */
+	const SALE_ORDER_PRINT = "2028-07";
+	
+	/**
 	 * 基础数据 - 商品品牌
 	 */
 	const GOODS_BRAND = "2029";
@@ -700,4 +740,13 @@ class FIdConst {
 	 * @var string
 	 */
 	const PRICE_SYSTEM = "2031";
+	
+	/**
+	 * 商品模块 - 设置商品价格体系
+	 *
+	 * 按钮权限
+	 *
+	 * @var string
+	 */
+	const PRICE_SYSTEM_SETTING_GOODS = "2031-01";
 }

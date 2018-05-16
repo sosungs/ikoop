@@ -21,6 +21,8 @@ class PWBillDAO extends PSIBaseExDAO {
 		$db = $this->db;
 		
 		$bs = new BizConfigDAO($db);
+		
+		// 取单号前缀
 		$pre = $bs->getPWBillRefPre($companyId);
 		
 		$mid = date("Ymd");
@@ -37,6 +39,12 @@ class PWBillDAO extends PSIBaseExDAO {
 		return $pre . $mid . $suf;
 	}
 
+	/**
+	 * 单据状态标志转化为文字
+	 *
+	 * @param int $code        	
+	 * @return string
+	 */
 	private function billStatusCodeToName($code) {
 		switch ($code) {
 			case 0 :
@@ -62,12 +70,24 @@ class PWBillDAO extends PSIBaseExDAO {
 		$start = $params["start"];
 		$limit = $params["limit"];
 		
+		// 订单状态
 		$billStatus = $params["billStatus"];
+		
+		// 单号
 		$ref = $params["ref"];
+		
+		// 业务日期 -起
 		$fromDT = $params["fromDT"];
+		// 业务日期-止
 		$toDT = $params["toDT"];
+		
+		// 仓库id
 		$warehouseId = $params["warehouseId"];
+		
+		// 供应商id
 		$supplierId = $params["supplierId"];
+		
+		// 付款方式
 		$paymentType = $params["paymentType"];
 		
 		$loginUserId = $params["loginUserId"];
@@ -75,6 +95,7 @@ class PWBillDAO extends PSIBaseExDAO {
 			return $this->emptyResult();
 		}
 		
+		// 是否有权限查看单价和金额
 		$canViewPrice = $params["canViewPrice"];
 		
 		$queryParams = [];
@@ -86,6 +107,7 @@ class PWBillDAO extends PSIBaseExDAO {
 				and (p.biz_user_id = u1.id) and (p.input_user_id = u2.id) ";
 		
 		$ds = new DataOrgDAO($db);
+		// 构建数据域SQL
 		$rs = $ds->buildSQL(FIdConst::PURCHASE_WAREHOUSE, "p", $loginUserId);
 		if ($rs) {
 			$sql .= " and " . $rs[0];
@@ -206,6 +228,7 @@ class PWBillDAO extends PSIBaseExDAO {
 			return $this->emptyResult();
 		}
 		
+		// 是否有权限查看单价和金额
 		$canViewPrice = $params["canViewPrice"];
 		
 		$db = $this->db;
@@ -214,6 +237,7 @@ class PWBillDAO extends PSIBaseExDAO {
 		$dataScale = $bcDAO->getGoodsCountDecNumber($companyId);
 		$fmt = "decimal(19, " . $dataScale . ")";
 		
+		// 采购入库单id
 		$pwbillId = $params["id"];
 		
 		$sql = "select p.id, g.code, g.name, g.spec, u.name as unit_name, 
@@ -256,13 +280,25 @@ class PWBillDAO extends PSIBaseExDAO {
 			return $this->bad("没有赋权[采购入库-采购单价和金额可见]，不能新建采购入库单");
 		}
 		
+		// 业务日期
 		$bizDT = $bill["bizDT"];
+		
+		// 仓库id
 		$warehouseId = $bill["warehouseId"];
+		
+		// 供应商id
 		$supplierId = $bill["supplierId"];
+		
+		// 业务员id
 		$bizUserId = $bill["bizUserId"];
+		
+		// 付款方式
 		$paymentType = $bill["paymentType"];
+		
+		// 单据备注
 		$billMemo = $bill["billMemo"];
 		
+		// 采购订单单号
 		$pobillRef = $bill["pobillRef"];
 		
 		$warehouseDAO = new WarehouseDAO($db);
@@ -311,6 +347,7 @@ class PWBillDAO extends PSIBaseExDAO {
 		
 		$id = $this->newId();
 		
+		// 主表
 		$sql = "insert into t_pw_bill (id, ref, supplier_id, warehouse_id, biz_dt,
 				biz_user_id, bill_status, date_created, goods_money, input_user_id, payment_type,
 				data_org, company_id, bill_memo)
@@ -327,6 +364,7 @@ class PWBillDAO extends PSIBaseExDAO {
 		// 明细记录
 		$items = $bill["items"];
 		foreach ( $items as $i => $item ) {
+			// 商品id
 			$goodsId = $item["goodsId"];
 			if ($goodsId == null) {
 				continue;
@@ -346,10 +384,16 @@ class PWBillDAO extends PSIBaseExDAO {
 				return $this->bad("入库数量不能是负数");
 			}
 			
+			// 入库单明细记录的备注
 			$memo = $item["memo"];
+			
+			// 采购单价
 			$goodsPrice = $item["goodsPrice"];
+			
+			// 采购金额
 			$goodsMoney = $item["goodsMoney"];
 			
+			// 采购订单明细记录id
 			$poBillDetailId = $item["poBillDetailId"];
 			
 			$sql = "insert into t_pw_bill_detail
@@ -364,6 +408,7 @@ class PWBillDAO extends PSIBaseExDAO {
 			}
 		}
 		
+		// 同步入库单主表中的采购金额合计值
 		$sql = "select sum(goods_money) as goods_money from t_pw_bill_detail
 				where pwbill_id = '%s' ";
 		$data = $db->query($sql, $id);
@@ -384,6 +429,7 @@ class PWBillDAO extends PSIBaseExDAO {
 			$sql = "select id, company_id from t_po_bill where ref = '%s' ";
 			$data = $db->query($sql, $pobillRef);
 			if (! $data) {
+				// 传入了不存在的采购订单单号
 				return $this->sqlError(__METHOD__, __LINE__);
 			}
 			$pobillId = $data[0]["id"];
@@ -397,6 +443,7 @@ class PWBillDAO extends PSIBaseExDAO {
 				return $this->sqlError(__METHOD__, __LINE__);
 			}
 			
+			// 关联采购订单和采购入库单
 			$sql = "insert into t_po_pw(po_id, pw_id) values('%s', '%s')";
 			$rc = $db->execute($sql, $pobillId, $id);
 			if (! $rc) {
@@ -417,12 +464,25 @@ class PWBillDAO extends PSIBaseExDAO {
 	private function updatePWBillForNotViewPrice(&$bill, $fmt) {
 		$db = $this->db;
 		
+		// 采购入库单id
 		$id = $bill["id"];
+		
+		// 业务日期
 		$bizDT = $bill["bizDT"];
+		
+		// 仓库id
 		$warehouseId = $bill["warehouseId"];
+		
+		// 供应商id
 		$supplierId = $bill["supplierId"];
+		
+		// 业务员id
 		$bizUserId = $bill["bizUserId"];
+		
+		// 付款方式
 		$paymentType = $bill["paymentType"];
+		
+		// 单据备注
 		$billMemo = $bill["billMemo"];
 		
 		$goodsDAO = new GoodsDAO($db);
@@ -432,8 +492,10 @@ class PWBillDAO extends PSIBaseExDAO {
 		
 		$detailIdArray = [];
 		foreach ( $items as $i => $item ) {
-			
+			// 明细记录id
 			$detailId = $item["id"];
+			
+			// 商品id
 			$goodsId = $item["goodsId"];
 			
 			if ($goodsId == null) {
@@ -453,8 +515,10 @@ class PWBillDAO extends PSIBaseExDAO {
 				return $this->bad("入库数量不能是负数");
 			}
 			
+			// 入库明细记录的备注
 			$memo = $item["memo"];
 			
+			// 当不能查看采购金额和单价的时候，编辑采购入库单就只能修改数量
 			$sql = "update t_pw_bill_detail
 					set goods_count = convert(%f, $fmt), memo = '%s' 
 					where id = '%s' ";
@@ -490,6 +554,7 @@ class PWBillDAO extends PSIBaseExDAO {
 			return $this->sqlError(__METHOD__, __LINE__);
 		}
 		
+		// 同步主表数据
 		$sql = "select sum(goods_money) as goods_money from t_pw_bill_detail
 				where pwbill_id = '%s' ";
 		$data = $db->query($sql, $id);
@@ -509,6 +574,7 @@ class PWBillDAO extends PSIBaseExDAO {
 			return $this->sqlError(__METHOD__, __LINE__);
 		}
 		
+		// 操作成功
 		return null;
 	}
 
@@ -521,12 +587,25 @@ class PWBillDAO extends PSIBaseExDAO {
 	public function updatePWBill(& $bill) {
 		$db = $this->db;
 		
+		// 采购入库单id
 		$id = $bill["id"];
+		
+		// 业务日期
 		$bizDT = $bill["bizDT"];
+		
+		// 仓库id
 		$warehouseId = $bill["warehouseId"];
+		
+		// 供应商id
 		$supplierId = $bill["supplierId"];
+		
+		// 业务员id
 		$bizUserId = $bill["bizUserId"];
+		
+		// 付款方式
 		$paymentType = $bill["paymentType"];
+		
+		// 采购入库单备注
 		$billMemo = $bill["billMemo"];
 		
 		$warehouseDAO = new WarehouseDAO($db);
@@ -573,11 +652,14 @@ class PWBillDAO extends PSIBaseExDAO {
 		}
 		$bill["ref"] = $ref;
 		
+		// 是否有权限查看采购单价和金额
 		$viewPrice = $bill["viewPrice"] == "1";
 		if (! $viewPrice) {
+			// 没有该权限的时候，调用另外一个单独的function来修改入库单
 			return $this->updatePWBillForNotViewPrice($bill, $fmt);
 		}
 		
+		// 编辑单据的时候，先删除原来的明细记录，再新增明细记录
 		$sql = "delete from t_pw_bill_detail where pwbill_id = '%s' ";
 		$rc = $db->execute($sql, $id);
 		if ($rc === false) {
@@ -589,6 +671,7 @@ class PWBillDAO extends PSIBaseExDAO {
 		// 明细记录
 		$items = $bill["items"];
 		foreach ( $items as $i => $item ) {
+			// 商品id
 			$goodsId = $item["goodsId"];
 			
 			if ($goodsId == null) {
@@ -608,10 +691,16 @@ class PWBillDAO extends PSIBaseExDAO {
 				return $this->bad("入库数量不能是负数");
 			}
 			
+			// 入库明细记录的备注
 			$memo = $item["memo"];
+			
+			// 采购单价
 			$goodsPrice = $item["goodsPrice"];
+			
+			// 采购金额
 			$goodsMoney = $item["goodsMoney"];
 			
+			// 采购订单明细记录id
 			$poBillDetailId = $item["poBillDetailId"];
 			
 			$sql = "insert into t_pw_bill_detail (id, date_created, goods_id, goods_count, goods_price,
@@ -624,6 +713,7 @@ class PWBillDAO extends PSIBaseExDAO {
 			}
 		}
 		
+		// 同步主表数据
 		$sql = "select sum(goods_money) as goods_money from t_pw_bill_detail
 				where pwbill_id = '%s' ";
 		$data = $db->query($sql, $id);
@@ -643,6 +733,7 @@ class PWBillDAO extends PSIBaseExDAO {
 			return $this->sqlError(__METHOD__, __LINE__);
 		}
 		
+		// 操作成功
 		return null;
 	}
 
@@ -681,9 +772,13 @@ class PWBillDAO extends PSIBaseExDAO {
 	public function updateAfloatInventoryByPWBill(& $bill) {
 		$db = $this->db;
 		
+		// 采购入库单id
 		$id = $bill["id"];
+		
+		// 仓库id
 		$warehouseId = $bill["warehouseId"];
 		
+		// 公司id
 		$companyId = $bill["companyId"];
 		
 		$bcDAO = new BizConfigDAO($db);
@@ -763,8 +858,10 @@ class PWBillDAO extends PSIBaseExDAO {
 	public function pwBillInfo($params) {
 		$db = $this->db;
 		
+		// 是否能查看采购单价和金额
 		$canViewPrice = $params["canViewPrice"];
 		
+		// 公司id
 		$companyId = $params["companyId"];
 		
 		$bcDAO = new BizConfigDAO($db);
@@ -896,6 +993,8 @@ class PWBillDAO extends PSIBaseExDAO {
 					$result["items"] = $items;
 				}
 			} else {
+				// 不是由采购订单生成采购入库单，是普通的新建采购入库单
+				
 				// 采购入库单默认付款方式
 				$result["paymentType"] = $tc->getPWBillDefaultPayment($companyId);
 			}
@@ -913,6 +1012,7 @@ class PWBillDAO extends PSIBaseExDAO {
 	public function deletePWBill(& $params) {
 		$db = $this->db;
 		
+		// 采购入库单id
 		$id = $params["id"];
 		
 		$companyId = $params["companyId"];
@@ -925,11 +1025,16 @@ class PWBillDAO extends PSIBaseExDAO {
 			return $this->bad("要删除的采购入库单不存在");
 		}
 		
+		// 单号
 		$ref = $bill["ref"];
+		
+		// 单据状态
 		$billStatus = $bill["billStatus"];
 		if ($billStatus != 0) {
 			return $this->bad("当前采购入库单已经提交入库，不能删除");
 		}
+		
+		// 仓库id
 		$warehouseId = $bill["warehouseId"];
 		
 		$sql = "select goods_id
@@ -942,12 +1047,14 @@ class PWBillDAO extends PSIBaseExDAO {
 			$goodsIdList[] = $v["goods_id"];
 		}
 		
+		// 先删除明细记录
 		$sql = "delete from t_pw_bill_detail where pwbill_id = '%s' ";
 		$rc = $db->execute($sql, $id);
 		if ($rc === false) {
 			return $this->sqlError(__METHOD__, __LINE__);
 		}
 		
+		// 再删除主表
 		$sql = "delete from t_pw_bill where id = '%s' ";
 		$rc = $db->execute($sql, $id);
 		if ($rc === false) {
@@ -1664,6 +1771,78 @@ class PWBillDAO extends PSIBaseExDAO {
 					"memo" => $v["memo"]
 			];
 		}
+		
+		return $result;
+	}
+
+	/**
+	 * 生成打印采购入库单的页面
+	 *
+	 * @param array $params        	
+	 */
+	public function getPWBillDataForLodopPrint($params) {
+		$db = $this->db;
+		
+		$id = $params["id"];
+		
+		$canViewPrice = $params["canViewPrice"];
+		
+		$sql = "select p.ref, p.bill_status, p.ref, p.biz_dt, u1.name as biz_user_name, u2.name as input_user_name,
+					p.goods_money, w.name as warehouse_name, s.name as supplier_name,
+					p.date_created, p.payment_type, p.company_id, p.bill_memo
+				from t_pw_bill p, t_warehouse w, t_supplier s, t_user u1, t_user u2
+				where (p.warehouse_id = w.id) and (p.supplier_id = s.id)
+				and (p.biz_user_id = u1.id) and (p.input_user_id = u2.id)
+				and (p.id = '%s')";
+		
+		$data = $db->query($sql, $id);
+		if (! $data) {
+			return null;
+		}
+		
+		$v = $data[0];
+		$companyId = $v["company_id"];
+		
+		$bcDAO = new BizConfigDAO($db);
+		$dataScale = $bcDAO->getGoodsCountDecNumber($companyId);
+		$fmt = "decimal(19, " . $dataScale . ")";
+		
+		$result = [];
+		
+		$result["ref"] = $v["ref"];
+		$result["billStatus"] = $v["bill_status"];
+		$result["supplierName"] = $v["supplier_name"];
+		$result["goodsMoney"] = $canViewPrice ? $v["goods_money"] : "****";
+		$result["bizDT"] = $this->toYMD($v["biz_dt"]);
+		$result["warehouseName"] = $v["warehouse_name"];
+		$result["bizUserName"] = $v["biz_user_name"];
+		$result["billMemo"] = $v["bill_memo"];
+		
+		$result["printDT"] = date("Y-m-d H:i:s");
+		
+		$sql = "select g.code, g.name, g.spec, u.name as unit_name,
+				convert(p.goods_count, $fmt) as goods_count, p.goods_price,
+				p.goods_money, p.memo
+				from t_pw_bill_detail p, t_goods g, t_goods_unit u
+				where p.pwbill_id = '%s' and p.goods_id = g.id and g.unit_id = u.id
+				order by p.show_order ";
+		$items = [];
+		$data = $db->query($sql, $id);
+		
+		foreach ( $data as $v ) {
+			$items[] = [
+					"goodsCode" => $v["code"],
+					"goodsName" => $v["name"],
+					"goodsSpec" => $v["spec"],
+					"goodsCount" => $v["goods_count"],
+					"unitName" => $v["unit_name"],
+					"goodsPrice" => $canViewPrice ? $v["goods_price"] : "****",
+					"goodsMoney" => $canViewPrice ? $v["goods_money"] : "****",
+					"memo" => $v["memo"]
+			];
+		}
+		
+		$result["items"] = $items;
 		
 		return $result;
 	}

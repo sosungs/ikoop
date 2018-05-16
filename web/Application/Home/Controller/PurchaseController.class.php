@@ -16,7 +16,7 @@ use Home\Service\UserService;
 class PurchaseController extends PSIBaseController {
 
 	/**
-	 * 采购入库单主页面
+	 * 采购入库 - 主页面
 	 */
 	public function pwbillIndex() {
 		$us = new UserService();
@@ -52,6 +52,10 @@ class PurchaseController extends PSIBaseController {
 			// 字段权限：单价可见
 			$this->assign("pViewPrice", 
 					$us->hasPermission(FIdConst::PURCHASE_WAREHOUSE_CAN_VIEW_PRICE) ? "1" : "0");
+			
+			// 按钮权限：打印
+			$this->assign("pPrint", 
+					$us->hasPermission(FIdConst::PURCHASE_WAREHOUSE_PRINT) ? "1" : "0");
 			
 			$this->display();
 		} else {
@@ -162,6 +166,7 @@ class PurchaseController extends PSIBaseController {
 			$this->assign("pCloseBill", 
 					$us->hasPermission(FIdConst::PURCHASE_ORDER_CLOSE) ? "1" : "0");
 			$this->assign("pGenPDF", $us->hasPermission(FIdConst::PURCHASE_ORDER_PDF) ? "1" : "0");
+			$this->assign("pPrint", $us->hasPermission(FIdConst::PURCHASE_ORDER_PRINT) ? "1" : "0");
 			
 			$this->display();
 		} else {
@@ -351,6 +356,22 @@ class PurchaseController extends PSIBaseController {
 			
 			$ss = new POBillService();
 			$data = $ss->getPOBillDataForLodopPrint($params);
+			$this->assign("data", $data);
+			$this->display();
+		}
+	}
+
+	/**
+	 * 生成打印采购入库单的页面
+	 */
+	public function genPWBillPrintPage() {
+		if (IS_POST) {
+			$params = [
+					"id" => I("post.id")
+			];
+			
+			$ss = new PWBillService();
+			$data = $ss->getPWBillDataForLodopPrint($params);
 			$this->assign("data", $data);
 			$this->display();
 		}

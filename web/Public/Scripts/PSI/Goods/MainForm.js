@@ -17,7 +17,8 @@ Ext.define("PSI.Goods.MainForm", {
 		pGoodsSI : null,
 		pAddBOM : null,
 		pEditBOM : null,
-		pDeleteBOM : null
+		pDeleteBOM : null,
+		pPriceSystem : null
 	},
 
 	/**
@@ -281,7 +282,10 @@ Ext.define("PSI.Goods.MainForm", {
 					viewConfig : {
 						enableTextSelection : true
 					},
-					title : "商品列表",
+					header : {
+						height : 30,
+						title : me.formatGridHeaderTitle("商品列表")
+					},
 					bbar : ["->", {
 								id : "pagingToolbar",
 								border : 0,
@@ -334,11 +338,21 @@ Ext.define("PSI.Goods.MainForm", {
 								sortable : false,
 								width : 300
 							}, {
+								header : "品牌标识",
+								dataIndex : "brandName",
+								menuDisabled : true,
+								sortable : false
+							}, {
 								header : "规格型号",
 								dataIndex : "spec",
 								menuDisabled : true,
 								sortable : false,
 								width : 200
+							}, {
+								header : "尺寸",
+								dataIndex : "chicun",
+								menuDisabled : true,
+								sortable : false
 							}, {
 								header : "计量单位",
 								dataIndex : "unitName",
@@ -494,7 +508,7 @@ Ext.define("PSI.Goods.MainForm", {
 		var me = this;
 		var item = me.getCategoryGrid().getSelectionModel().getSelection();
 		if (item == null || item.length != 1) {
-			me.getMainGrid().setTitle("商品列表");
+			me.getMainGrid().setTitle(me.formatGridHeaderTitle("商品列表"));
 			return;
 		}
 
@@ -505,6 +519,8 @@ Ext.define("PSI.Goods.MainForm", {
 		var me = this;
 		me.getSIGrid().setTitle("商品安全库存");
 		me.getSIGrid().getStore().removeAll();
+		me.getGoodsBOMGrid().getStore().removeAll();
+		me.getGoodsPriceGrid().getStore().removeAll();
 
 		me.getMainGrid().getStore().currentPage = 1;
 
@@ -1030,7 +1046,10 @@ Ext.define("PSI.Goods.MainForm", {
 
 		me.__categoryGrid = Ext.create("Ext.tree.Panel", {
 					cls : "PSI",
-					title : "商品分类",
+					header : {
+						height : 30,
+						title : me.formatGridHeaderTitle("商品分类")
+					},
 					store : store,
 					rootVisible : false,
 					useArrows : true,
@@ -1102,14 +1121,14 @@ Ext.define("PSI.Goods.MainForm", {
 
 	onCategoryTreeNodeSelect : function(record) {
 		if (!record) {
-			me.getMainGrid().setTitle("商品列表");
+			me.getMainGrid().setTitle(me.formatGridHeaderTitle("商品列表"));
 			return;
 		}
 
 		var me = this;
 
 		var title = "属于商品分类 [" + record.get("fullName") + "] 的商品列表";
-		me.getMainGrid().setTitle(title);
+		me.getMainGrid().setTitle(me.formatGridHeaderTitle(title));
 
 		me.onCategoryGridSelect();
 	},
@@ -1364,6 +1383,7 @@ Ext.define("PSI.Goods.MainForm", {
 							}),
 					tbar : [{
 								text : "设置商品价格体系",
+								disabled : me.getPPriceSystem() == "0",
 								iconCls : "PSI-button-commit",
 								handler : me.onGoodsPriceSystem,
 								scope : me

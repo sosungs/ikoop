@@ -160,6 +160,15 @@ class UpdateDBService extends PSIBaseService {
 		$this->update_20180316_01();
 		$this->update_20180406_01();
 		$this->update_20180410_01();
+		$this->update_20180501_01();
+		$this->update_20180501_02();
+		$this->update_20180502_01();
+		$this->update_20180502_02();
+		$this->update_20180502_03();
+		$this->update_20180502_04();
+		$this->update_20180503_01();
+		$this->update_20180503_02();
+		$this->update_20180503_03();
 		
 		$sql = "delete from t_psi_db_version";
 		$db->execute($sql);
@@ -180,6 +189,294 @@ class UpdateDBService extends PSIBaseService {
 	// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 	// ============================================
 	private function notForgot() {
+	}
+
+	private function update_20180503_03() {
+		// 本次更新：新增权限：商品-设置价格体系
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "商品";
+		
+		$fid = FIdConst::PRICE_SYSTEM_SETTING_GOODS;
+		$name = "商品-设置商品价格体系";
+		$note = "按钮权限：商品模块[设置商品价格体系]按钮权限";
+		$showOrder = 701;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
+	}
+
+	private function update_20180503_02() {
+		// 本次更新：新增权限 销售退货入库-打印
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "销售退货入库";
+		
+		$fid = FIdConst::SALE_REJECTION_PRINT;
+		$name = "销售退货入库-打印";
+		$note = "按钮权限：销售退货入库模块[打印预览]和[直接打印]按钮权限";
+		$showOrder = 206;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
+	}
+
+	private function update_20180503_01() {
+		// 本次更新：新增权限 销售出库-打印
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "销售出库";
+		
+		$fid = FIdConst::WAREHOUSING_SALE_PRINT;
+		$name = "销售出库-打印";
+		$note = "按钮权限：销售出库模块[打印预览]和[直接打印]按钮权限";
+		$showOrder = 207;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
+	}
+
+	private function update_20180502_04() {
+		// 本次更新：新增权限 销售订单-打印
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "销售订单";
+		
+		$fid = FIdConst::SALE_ORDER_PRINT;
+		$name = "销售订单-打印";
+		$note = "按钮权限：销售订单模块[打印预览]和[直接打印]按钮权限";
+		$showOrder = 207;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
+	}
+
+	private function update_20180502_03() {
+		// 本次更新：新增权限 库存盘点-打印
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "库存盘点";
+		
+		$fid = FIdConst::INVENTORY_CHECK_PRINT;
+		$name = "库存盘点-打印";
+		$note = "按钮权限：库存盘点模块[打印预览]和[直接打印]按钮权限";
+		$showOrder = 206;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
+	}
+
+	private function update_20180502_02() {
+		// 本次更新：新增权限 - 库间调拨-打印
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "库间调拨";
+		
+		$fid = FIdConst::INVENTORY_TRANSFER_PRINT;
+		$name = "库间调拨-打印";
+		$note = "按钮权限：库间调拨模块[打印预览]和[直接打印]按钮权限";
+		$showOrder = 206;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
+	}
+
+	private function update_20180502_01() {
+		// 本次更新：新增权限 - 采购退货出库打印
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "采购退货出库";
+		
+		$fid = FIdConst::PURCHASE_REJECTION_PRINT;
+		$name = "采购退货出库-打印";
+		$note = "按钮权限：采购退货出库模块[打印预览]和[直接打印]按钮权限";
+		$showOrder = 206;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
+	}
+
+	private function update_20180501_02() {
+		// 本次更新：新增权限 - 采购入库单打印
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "采购入库";
+		
+		$fid = FIdConst::PURCHASE_WAREHOUSE_PRINT;
+		$name = "采购入库-打印";
+		$note = "按钮权限：采购入库模块[打印预览]和[直接打印]按钮权限";
+		$showOrder = 207;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
+	}
+
+	private function update_20180501_01() {
+		// 本次更新：新增权限 - 采购订单打印
+		$db = $this->db;
+		
+		$ps = new PinyinService();
+		
+		$category = "采购订单";
+		
+		$fid = FIdConst::PURCHASE_ORDER_PRINT;
+		$name = "采购订单-打印";
+		$note = "按钮权限：采购订单模块[打印预览]和[直接打印]按钮权限";
+		$showOrder = 208;
+		$sql = "select count(*) as cnt from t_fid where fid = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$sql = "insert into t_fid(fid, name) value('%s', '%s')";
+			$db->execute($sql, $fid, $name);
+		}
+		
+		$sql = "select count(*) as cnt from t_permission where id = '%s' ";
+		$data = $db->query($sql, $fid);
+		$cnt = $data[0]["cnt"];
+		if ($cnt == 0) {
+			$py = $ps->toPY($name);
+			
+			$sql = "insert into t_permission (id, fid, name, note, category, py, show_order)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %d) ";
+			$db->execute($sql, $fid, $fid, $name, $note, $category, $py, $showOrder);
+		}
 	}
 
 	private function update_20180410_01() {
