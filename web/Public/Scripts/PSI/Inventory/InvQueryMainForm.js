@@ -472,7 +472,8 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 					columns : [Ext.create("Ext.grid.RowNumberer", {
 										text : "序号",
 										width : 40
-									}), /*** {
+									}), 
+						  /*** {
 								header : "商品编码",
 								dataIndex : "goodsCode",
 								menuDisabled : true,
@@ -487,13 +488,28 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								dataIndex : "goodsSpec",
 								menuDisabled : true,
 								sortable : false
-							}, */{
+							}, */ 
+								{
+								header : "业务日期",
+								dataIndex : "bizDT",
+								menuDisabled : true,
+								sortable : false,
+								width : 80
+							},  {
+								header : "往来单位",
+								dataIndex : "bizDW",
+								menuDisabled : true,
+								sortable : false,
+								width : 120								
+							},
+							/***{
 								header : "商品单位",
 								dataIndex : "unitName",
 								menuDisabled : true,
 								sortable : false,
 								width : 60
-							}, {
+							},*/
+							   {
 								header : "入库数量",
 								dataIndex : "inCount",
 								align : "right",
@@ -553,12 +569,6 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								xtype : "numbercolumn",
 								menuDisabled : true,
 								sortable : false
-							}, {
-								header : "业务日期",
-								dataIndex : "bizDT",
-								menuDisabled : true,
-								sortable : false,
-								width : 80
 							}, {
 								header : "业务员",
 								dataIndex : "bizUserName",
