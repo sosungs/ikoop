@@ -161,13 +161,13 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								}
 							}],
 					columnLines : true,
-					columns : [{
+					columns : [/**{
 								header : "仓库编码",
 								dataIndex : "code",
 								menuDisabled : true,
 								sortable : false,
 								width : 60
-							}, {
+							}, */{
 								header : "仓库名称",
 								dataIndex : "name",
 								menuDisabled : true,
@@ -267,6 +267,7 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								menuDisabled : true,
 								sortable : false
 							}, {
+								//新增字段
 								header : "品牌标识",
 								dataIndex : "brandName",
 								menuDisabled : true,
@@ -277,6 +278,7 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								menuDisabled : true,
 								sortable : false
 							}, {
+								//新增字段
 								header : "尺寸",
 								dataIndex : "chiCun",
 								menuDisabled : true,
@@ -498,6 +500,7 @@ Ext.define("PSI.Inventory.InvQueryMainForm", {
 								sortable : false,
 								width : 80
 							},  {
+								//新增字段
 								header : "往来单位",
 								dataIndex : "bizDW",
 								menuDisabled : true,
