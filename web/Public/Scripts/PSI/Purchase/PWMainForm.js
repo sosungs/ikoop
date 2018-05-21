@@ -491,7 +491,7 @@ Ext.define("PSI.Purchase.PWMainForm", {
 								width : 200
 							}, {
 								header : "尺寸",
-								dataIndex : "Chicun",
+								dataIndex : "chiCun",
 								menuDisabled : true,
 								sortable : false,
 								width : 110
