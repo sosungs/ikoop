@@ -496,12 +496,24 @@ Ext.define("PSI.Sale.WSMainForm", {
 								menuDisabled : true,
 								sortable : false,
 								width : 200
-							}, {
+							},{
+								header : "品牌",
+								dataIndex : "brandName",
+								menuDisabled : true,
+								sortable : false,
+								width : 100
+							},{
 								header : "规格型号",
 								dataIndex : "goodsSpec",
 								menuDisabled : true,
 								sortable : false,
 								width : 200
+							}, {
+								header : "尺寸",
+								dataIndex : "Chicun",
+								menuDisabled : true,
+								sortable : false,
+								width : 100
 							}, {
 								header : "数量",
 								dataIndex : "goodsCount",
