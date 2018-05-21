@@ -533,7 +533,7 @@ Ext.define("PSI.Sale.WSMainForm", {
 								sortable : false,
 								align : "right",
 								xtype : "numbercolumn",
-								width : 150
+								width : 90
 							}, {
 								header : "销售金额",
 								dataIndex : "goodsMoney",
@@ -541,7 +541,7 @@ Ext.define("PSI.Sale.WSMainForm", {
 								sortable : false,
 								align : "right",
 								xtype : "numbercolumn",
-								width : 150
+								width : 100
 							}, {
 								header : "序列号",
 								dataIndex : "sn",
