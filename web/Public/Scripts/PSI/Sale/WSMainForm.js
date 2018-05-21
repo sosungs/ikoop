@@ -513,7 +513,7 @@ Ext.define("PSI.Sale.WSMainForm", {
 								dataIndex : "Chicun",
 								menuDisabled : true,
 								sortable : false,
-								width : 100
+								width : 110	
 							}, {
 								header : "数量",
 								dataIndex : "goodsCount",
