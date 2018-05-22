@@ -410,7 +410,7 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 								align : "right",
 								xtype : "numbercolumn",
 								width : 150
-							}, {
+							}, /**{
 								header : "税金",
 								dataIndex : "tax",
 								menuDisabled : true,
@@ -426,7 +426,7 @@ Ext.define("PSI.PurchaseOrder.POMainForm", {
 								align : "right",
 								xtype : "numbercolumn",
 								width : 150
-							}, {
+							}, */{
 								header : "付款方式",
 								dataIndex : "paymentType",
 								menuDisabled : true,

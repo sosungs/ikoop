@@ -626,7 +626,7 @@ Ext.define("PSI.SaleOrder.SOMainForm", {
 								xtype : "numbercolumn",
 								format : "0",
 								align : "right"
-							}, {
+							}, /***{
 								header : "税金",
 								dataIndex : "tax",
 								menuDisabled : true,
@@ -642,7 +642,7 @@ Ext.define("PSI.SaleOrder.SOMainForm", {
 								align : "right",
 								xtype : "numbercolumn",
 								width : 150
-							}, {
+							}, */{
 								header : "备注",
 								dataIndex : "memo",
 								menuDisabled : true,
