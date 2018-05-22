@@ -171,6 +171,23 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										}
 									}
 								}, {
+									id : "PSI_Goods_GoodsEditForm_editBrandName",
+									fieldLabel : "品牌",
+									colspan : 2,
+									width : 430,
+									allowBlank : false,
+									blankText : "没有输入品牌",
+									beforeLabelTextTpl : PSI.Const.REQUIRED,
+									name : "brandName",
+									value : entity == null ? null : entity
+											.get("brandName"),
+									listeners : {
+										specialkey : {
+											fn : me.onEditSpecialKey,
+											scope : me
+										}
+									}
+								}, {
 									id : "PSI_Goods_GoodsEditForm_editSpec",
 									fieldLabel : "规格型号",
 									colspan : 2,
