@@ -576,6 +576,12 @@ Ext.define("PSI.Sale.WSEditForm", {
 								draggable : false,
 								width : 200
 							}, {
+								header : "旧代号",
+								dataIndex : "oldSpec",
+								menuDisabled : true,
+								sortable : false,
+								width : 110
+							},{
 								header : "尺寸",
 								dataIndex : "chiCun",
 								menuDisabled : true,

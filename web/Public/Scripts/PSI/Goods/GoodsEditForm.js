@@ -202,6 +202,20 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										}
 									}
 								}, {
+									id : "PSI_Goods_GoodsEditForm_editSpec",
+									fieldLabel : "旧代号",
+									colspan : 2,
+									width : 430,
+									name : "oldSpec",
+									value : entity == null ? null : entity
+											.get("oldSpec"),
+									listeners : {
+										specialkey : {
+											fn : me.onEditSpecialKey,
+											scope : me
+										}
+									}
+								}, {
 									id : "PSI_Goods_GoodsEditForm_editUnit",
 									xtype : "combo",
 									fieldLabel : "计量单位",

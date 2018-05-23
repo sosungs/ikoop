@@ -347,10 +347,16 @@ Ext.define("PSI.Goods.MainForm", {
 								dataIndex : "spec",
 								menuDisabled : true,
 								sortable : false,
-								width : 200
+								width : 180
+							}, {
+								header : "旧代号",
+								dataIndex : "oldSpec",
+								menuDisabled : true,
+								sortable : false,
+								width : 120
 							}, {
 								header : "尺寸",
-								dataIndex : "chicun",
+								dataIndex : "chiCun",
 								menuDisabled : true,
 								sortable : false
 							}, {

@@ -66,8 +66,23 @@ Ext.define("PSI.Goods.GoodsWithPurchaseFieldField", {
 								menuDisabled : true,
 								flex : 1
 							}, {
+								header : "品牌",
+								dataIndex : "brandName",
+								menuDisabled : true,
+								flex : 1
+							}, {
 								header : "规格型号",
 								dataIndex : "spec",
+								menuDisabled : true,
+								flex : 1
+							}, {
+								header : "老代号",
+								dataIndex : "oldSpec",
+								menuDisabled : true,
+								flex : 1
+							}, {
+								header : "尺寸",
+								dataIndex : "chiCun",
 								menuDisabled : true,
 								flex : 1
 							}, {
