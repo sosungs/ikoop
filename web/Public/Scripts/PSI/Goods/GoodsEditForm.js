@@ -216,6 +216,20 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										}
 									}
 								}, {
+									id : "PSI_Goods_GoodsEditForm_editchiCun",
+									fieldLabel : "尺寸",
+									colspan : 2,
+									width : 430,
+									name : "chiCun",
+									value : entity == null ? null : entity
+											.get("chiCun"),
+									listeners : {
+										specialkey : {
+											fn : me.onEditSpecialKey,
+											scope : me
+										}
+									}
+								}, {
 									id : "PSI_Goods_GoodsEditForm_editUnit",
 									xtype : "combo",
 									fieldLabel : "计量单位",

@@ -336,7 +336,7 @@ Ext.define("PSI.Goods.MainForm", {
 								dataIndex : "name",
 								menuDisabled : true,
 								sortable : false,
-								width : 300
+								width : 180
 							}, {
 								header : "品牌标识",
 								dataIndex : "brandName",
