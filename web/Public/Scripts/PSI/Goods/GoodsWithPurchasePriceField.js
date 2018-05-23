@@ -59,7 +59,7 @@ Ext.define("PSI.Goods.GoodsWithPurchaseFieldField", {
 								header : "编码",
 								dataIndex : "code",
 								menuDisabled : true,
-								width : 100
+								width : 80
 							}, {
 								header : "商品",
 								dataIndex : "name",
@@ -89,7 +89,7 @@ Ext.define("PSI.Goods.GoodsWithPurchaseFieldField", {
 								header : "单位",
 								dataIndex : "unitName",
 								menuDisabled : true,
-								width : 60
+								width : 45
 							}, {
 								header : "建议采购价",
 								dataIndex : "purchasePrice",

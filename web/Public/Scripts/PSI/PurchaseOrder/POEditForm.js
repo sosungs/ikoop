@@ -577,7 +577,7 @@ Ext.define("PSI.PurchaseOrder.POEditForm", {
 								align : "right",
 								format : "0",
 								width : 60
-							}, {
+							},/** {
 								header : "税金",
 								dataIndex : "tax",
 								menuDisabled : true,
@@ -605,7 +605,7 @@ Ext.define("PSI.PurchaseOrder.POEditForm", {
 									hideTrigger : true
 								},
 								summaryType : "sum"
-							}, {
+							},*/ {
 								header : "备注",
 								dataIndex : "memo",
 								menuDisabled : true,
