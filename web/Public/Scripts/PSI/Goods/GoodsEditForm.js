@@ -89,7 +89,7 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 				height : 40
 			},
 			width : 460,
-			height : 370,
+			height : 460,
 			layout : "border",
 			items : [{
 						region : "north",
@@ -202,7 +202,7 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										}
 									}
 								}, {
-									id : "PSI_Goods_GoodsEditForm_editSpec",
+									id : "PSI_Goods_GoodsEditForm_editoldSpec",
 									fieldLabel : "旧代号",
 									colspan : 2,
 									width : 430,
@@ -247,7 +247,7 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 											scope : me
 										}
 									}
-								}, {
+								},/** {
 									id : "PSI_Goods_GoodsEditForm_editBrandId",
 									xtype : "hidden",
 									name : "brandId"
@@ -264,7 +264,7 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 											scope : me
 										}
 									}
-								}, {
+								},*/ {
 									fieldLabel : "销售基准价",
 									xtype : "numberfield",
 									hideTrigger : true,

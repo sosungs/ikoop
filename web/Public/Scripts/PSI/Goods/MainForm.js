@@ -365,12 +365,12 @@ Ext.define("PSI.Goods.MainForm", {
 								menuDisabled : true,
 								sortable : false,
 								width : 60
-							}, {
+							},/** {
 								header : "品牌",
 								dataIndex : "brandFullName",
 								menuDisabled : true,
 								sortable : false
-							}, {
+							}, */{
 								header : "销售基准价",
 								dataIndex : "salePrice",
 								menuDisabled : true,
