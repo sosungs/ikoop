@@ -57,32 +57,37 @@ Ext.define("PSI.Goods.GoodsWithSalePriceField", {
 								header : "编码",
 								dataIndex : "code",
 								menuDisabled : true,
-								width : 70
+								width : 100
 							}, {
 								header : "商品",
 								dataIndex : "name",
 								menuDisabled : true,
-								flex : 1
+								flex : 1,
+								width : 150
 							}, {
 								header : "品牌",
 								dataIndex : "brandName",
 								menuDisabled : true,
-								flex : 1
+								flex : 1,
+								width : 80
 							}, {
 								header : "规格型号",
 								dataIndex : "spec",
 								menuDisabled : true,
-								flex : 1
+								flex : 1,
+								width : 200
 							}, {
 								header : "老代号",
 								dataIndex : "oldSpec",
 								menuDisabled : true,
-								flex : 1
+								flex : 1,
+								width : 150
 							}, {
 								header : "尺寸",
 								dataIndex : "chiCun",
 								menuDisabled : true,
-								flex : 1
+								flex : 1,
+								width : 150
 							}, {
 								header : "单位",
 								dataIndex : "unitName",
