@@ -171,16 +171,16 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										}
 									}
 								}, {
-									id : "PSI_Goods_GoodsEditForm_editbrandCode",
+									id : "PSI_Goods_GoodsEditForm_editBrandName",
 									fieldLabel : "品牌",
 									colspan : 2,
 									width : 430,
 									allowBlank : false,
 									blankText : "没有输入品牌",
 									beforeLabelTextTpl : PSI.Const.REQUIRED,
-									name : "brandCode",
+									name : "brandName",
 									value : entity == null ? null : entity
-											.get("brandCode"),
+											.get("brandName"),
 									listeners : {
 										specialkey : {
 											fn : me.onEditSpecialKey,
@@ -344,14 +344,11 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 				.getCmp("PSI_Goods_GoodsEditForm_editCategoryId");
 		me.editCode = Ext.getCmp("PSI_Goods_GoodsEditForm_editCode");
 		me.editName = Ext.getCmp("PSI_Goods_GoodsEditForm_editName");
-		me.editbrandCode = Ext.getCmp("PSI_Goods_GoodsEditForm_editbrandCode");
 		me.editSpec = Ext.getCmp("PSI_Goods_GoodsEditForm_editSpec");
-		me.editoldSpec = Ext.getCmp("PSI_Goods_GoodsEditForm_editoldSpec");
-		me.editchiCun = Ext.getCmp("PSI_Goods_GoodsEditForm_editchiCun");
 		me.editUnit = Ext.getCmp("PSI_Goods_GoodsEditForm_editUnit");
 		me.editBarCode = Ext.getCmp("PSI_Goods_GoodsEditForm_editBarCode");
 		me.editBrand = Ext.getCmp("PSI_Goods_GoodsEditForm_editBrand");
-		//me.editBrandId = Ext.getCmp("PSI_Goods_GoodsEditForm_editBrandId");
+		me.editBrandId = Ext.getCmp("PSI_Goods_GoodsEditForm_editBrandId");
 		me.editSalePrice = Ext.getCmp("PSI_Goods_GoodsEditForm_editSalePrice");
 		me.editPurchasePrice = Ext
 				.getCmp("PSI_Goods_GoodsEditForm_editPurchasePrice");
@@ -401,10 +398,7 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 								me.editCategory.setValue(data.categoryName);
 								me.editCode.setValue(data.code);
 								me.editName.setValue(data.name);
-								me.editbrandCode.setValue(data.brandCode);
 								me.editSpec.setValue(data.spec);
-								me.editoldSpec.setValue(data.oldSpec);
-								me.editchiCun.setValue(data.chiCun);
 								me.editUnit.setValue(data.unitId);
 								me.editSalePrice.setValue(data.salePrice);
 								me.editPurchasePrice
