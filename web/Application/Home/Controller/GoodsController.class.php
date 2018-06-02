@@ -8,15 +8,15 @@ use Home\Service\ImportService;
 use Home\Service\UserService;
 
 /**
- * å•†å“Controller
+ * ÉÌÆ·Controller
  *
- * @author æé™æ³¢
+ * @author Àî¾²²¨
  *        
  */
 class GoodsController extends PSIBaseController {
 
 	/**
-	 * å•†å“ä¸»é¡µé¢
+	 * ÉÌÆ·Ö÷Ò³Ãæ
 	 */
 	public function index() {
 		$us = new UserService();
@@ -24,7 +24,7 @@ class GoodsController extends PSIBaseController {
 		if ($us->hasPermission(FIdConst::GOODS)) {
 			$this->initVar();
 			
-			$this->assign("title", "å•†å“");
+			$this->assign("title", "ÉÌÆ·");
 			
 			$this->assign("pAddCategory", $us->hasPermission(FIdConst::GOODS_CATEGORY_ADD) ? 1 : 0);
 			$this->assign("pEditCategory", 
@@ -51,7 +51,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * å•†å“è®¡é‡å•ä½ä¸»é¡µé¢
+	 * ÉÌÆ·¼ÆÁ¿µ¥Î»Ö÷Ò³Ãæ
 	 */
 	public function unitIndex() {
 		$us = new UserService();
@@ -59,7 +59,7 @@ class GoodsController extends PSIBaseController {
 		if ($us->hasPermission(FIdConst::GOODS_UNIT)) {
 			$this->initVar();
 			
-			$this->assign("title", "å•†å“è®¡é‡å•ä½");
+			$this->assign("title", "ÉÌÆ·¼ÆÁ¿µ¥Î»");
 			
 			$this->display();
 		} else {
@@ -68,7 +68,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è·å¾—æ‰€æœ‰çš„å•†å“è®¡é‡å•ä½åˆ—è¡¨
+	 * »ñµÃËùÓĞµÄÉÌÆ·¼ÆÁ¿µ¥Î»ÁĞ±í
 	 */
 	public function allUnits() {
 		if (IS_POST) {
@@ -78,7 +78,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æ–°å¢æˆ–ç¼–è¾‘å•†å“å•ä½
+	 * ĞÂÔö»ò±à¼­ÉÌÆ·µ¥Î»
 	 */
 	public function editUnit() {
 		if (IS_POST) {
@@ -92,7 +92,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * åˆ é™¤å•†å“è®¡é‡å•ä½
+	 * É¾³ıÉÌÆ·¼ÆÁ¿µ¥Î»
 	 */
 	public function deleteUnit() {
 		if (IS_POST) {
@@ -105,7 +105,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è·å¾—å•†å“åˆ†ç±»
+	 * »ñµÃÉÌÆ··ÖÀà
 	 */
 	public function allCategories() {
 		if (IS_POST) {
@@ -121,21 +121,21 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æ–°å¢æˆ–ç¼–è¾‘å•†å“åˆ†ç±»
+	 * ĞÂÔö»ò±à¼­ÉÌÆ··ÖÀà
 	 */
 	public function editCategory() {
 		if (IS_POST) {
 			$us = new UserService();
 			if (I("post.id")) {
-				// ç¼–è¾‘å•†å“åˆ†ç±»
+				// ±à¼­ÉÌÆ··ÖÀà
 				if (! $us->hasPermission(FIdConst::GOODS_CATEGORY_EDIT)) {
-					$this->ajaxReturn($this->noPermission("ç¼–è¾‘å•†å“åˆ†ç±»"));
+					$this->ajaxReturn($this->noPermission("±à¼­ÉÌÆ··ÖÀà"));
 					return;
 				}
 			} else {
-				// æ–°å¢å•†å“åˆ†ç±»
+				// ĞÂÔöÉÌÆ··ÖÀà
 				if (! $us->hasPermission(FIdConst::GOODS_CATEGORY_ADD)) {
-					$this->ajaxReturn($this->noPermission("æ–°å¢å•†å“åˆ†ç±»"));
+					$this->ajaxReturn($this->noPermission("ĞÂÔöÉÌÆ··ÖÀà"));
 					return;
 				}
 			}
@@ -152,7 +152,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è·å¾—æŸä¸ªåˆ†ç±»çš„ä¿¡æ¯
+	 * »ñµÃÄ³¸ö·ÖÀàµÄĞÅÏ¢
 	 */
 	public function getCategoryInfo() {
 		if (IS_POST) {
@@ -165,13 +165,13 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * åˆ é™¤å•†å“åˆ†ç±»
+	 * É¾³ıÉÌÆ··ÖÀà
 	 */
 	public function deleteCategory() {
 		if (IS_POST) {
 			$us = new UserService();
 			if (! $us->hasPermission(FIdConst::GOODS_CATEGORY_DELETE)) {
-				$this->ajaxReturn($this->noPermission("åˆ é™¤å•†å“åˆ†ç±»"));
+				$this->ajaxReturn($this->noPermission("É¾³ıÉÌÆ··ÖÀà"));
 				return;
 			}
 			
@@ -184,7 +184,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è·å¾—å•†å“åˆ—è¡¨
+	 * »ñµÃÉÌÆ·ÁĞ±í
 	 */
 	public function goodsList() {
 		if (IS_POST) {
@@ -192,7 +192,10 @@ class GoodsController extends PSIBaseController {
 					"categoryId" => I("post.categoryId"),
 					"code" => I("post.code"),
 					"name" => I("post.name"),
+					"brandcode" => I("post.brandCode"),
 					"spec" => I("post.spec"),
+					"oldspec" => I("post.oldSpec"),
+					"chicun" => I("post.chiCun"),
 					"barCode" => I("post.barCode"),
 					"page" => I("post.page"),
 					"start" => I("post.start"),
@@ -204,21 +207,21 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æ–°å¢æˆ–ç¼–è¾‘å•†å“
+	 * ĞÂÔö»ò±à¼­ÉÌÆ·
 	 */
 	public function editGoods() {
 		if (IS_POST) {
 			$us = new UserService();
 			if (I("post.id")) {
-				// ç¼–è¾‘å•†å“
+				// ±à¼­ÉÌÆ·
 				if (! $us->hasPermission(FIdConst::GOODS_EDIT)) {
-					$this->ajaxReturn($this->noPermission("ç¼–è¾‘å•†å“"));
+					$this->ajaxReturn($this->noPermission("±à¼­ÉÌÆ·"));
 					return;
 				}
 			} else {
-				// æ–°å¢å•†å“
+				// ĞÂÔöÉÌÆ·
 				if (! $us->hasPermission(FIdConst::GOODS_ADD)) {
-					$this->ajaxReturn($this->noPermission("æ–°å¢å•†å“"));
+					$this->ajaxReturn($this->noPermission("ĞÂÔöÉÌÆ·"));
 					return;
 				}
 			}
@@ -228,7 +231,10 @@ class GoodsController extends PSIBaseController {
 					"categoryId" => I("post.categoryId"),
 					"code" => I("post.code"),
 					"name" => I("post.name"),
+					"brandcode" => I("post.brandCode"),
 					"spec" => I("post.spec"),
+					"oldspec" => I("post.oldSpec"),
+					"chicun" => I("post.chiCun"),
 					"unitId" => I("post.unitId"),
 					"salePrice" => I("post.salePrice"),
 					"purchasePrice" => I("post.purchasePrice"),
@@ -242,13 +248,13 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * åˆ é™¤å•†å“
+	 * É¾³ıÉÌÆ·
 	 */
 	public function deleteGoods() {
 		if (IS_POST) {
 			$us = new UserService();
 			if (! $us->hasPermission(FIdConst::GOODS_DELETE)) {
-				$this->ajaxReturn($this->noPermission("åˆ é™¤å•†å“"));
+				$this->ajaxReturn($this->noPermission("É¾³ıÉÌÆ·"));
 				return;
 			}
 			
@@ -261,7 +267,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * å•†å“è‡ªå®šä¹‰å­—æ®µï¼ŒæŸ¥è¯¢æ•°æ®
+	 * ÉÌÆ·×Ô¶¨Òå×Ö¶Î£¬²éÑ¯Êı¾İ
 	 */
 	public function queryData() {
 		if (IS_POST) {
@@ -272,7 +278,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * å•†å“è‡ªå®šä¹‰å­—æ®µï¼ŒæŸ¥è¯¢æ•°æ®
+	 * ÉÌÆ·×Ô¶¨Òå×Ö¶Î£¬²éÑ¯Êı¾İ
 	 */
 	public function queryDataWithSalePrice() {
 		if (IS_POST) {
@@ -284,7 +290,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * å•†å“è‡ªå®šä¹‰å­—æ®µï¼ŒæŸ¥è¯¢æ•°æ®
+	 * ÉÌÆ·×Ô¶¨Òå×Ö¶Î£¬²éÑ¯Êı¾İ
 	 */
 	public function queryDataWithPurchasePrice() {
 		if (IS_POST) {
@@ -295,7 +301,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æŸ¥è¯¢æŸä¸ªå•†å“çš„ä¿¡æ¯
+	 * ²éÑ¯Ä³¸öÉÌÆ·µÄĞÅÏ¢
 	 */
 	public function goodsInfo() {
 		if (IS_POST) {
@@ -309,7 +315,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è·å¾—å•†å“çš„å®‰å…¨åº“å­˜ä¿¡æ¯
+	 * »ñµÃÉÌÆ·µÄ°²È«¿â´æĞÅÏ¢
 	 */
 	public function goodsSafetyInventoryList() {
 		if (IS_POST) {
@@ -322,7 +328,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è®¾ç½®å®‰å…¨åº“å­˜æ—¶å€™ï¼ŒæŸ¥è¯¢ä¿¡æ¯
+	 * ÉèÖÃ°²È«¿â´æÊ±ºò£¬²éÑ¯ĞÅÏ¢
 	 */
 	public function siInfo() {
 		if (IS_POST) {
@@ -335,13 +341,13 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è®¾ç½®å®‰å…¨åº“å­˜
+	 * ÉèÖÃ°²È«¿â´æ
 	 */
 	public function editSafetyInventory() {
 		if (IS_POST) {
 			$us = new UserService();
 			if (! $us->hasPermission(FIdConst::GOODS_SI)) {
-				$this->ajaxReturn($this->noPermission("è®¾ç½®å•†å“å®‰å…¨åº“å­˜"));
+				$this->ajaxReturn($this->noPermission("ÉèÖÃÉÌÆ·°²È«¿â´æ"));
 				return;
 			}
 			
@@ -354,7 +360,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æ ¹æ®æ¡å½¢ç ï¼ŒæŸ¥è¯¢å•†å“ä¿¡æ¯, é”€å”®å‡ºåº“å•ä½¿ç”¨
+	 * ¸ù¾İÌõĞÎÂë£¬²éÑ¯ÉÌÆ·ĞÅÏ¢, ÏúÊÛ³ö¿âµ¥Ê¹ÓÃ
 	 */
 	public function queryGoodsInfoByBarcode() {
 		if (IS_POST) {
@@ -367,7 +373,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æ ¹æ®æ¡å½¢ç ï¼ŒæŸ¥è¯¢å•†å“ä¿¡æ¯, é‡‡è´­å…¥åº“å•ä½¿ç”¨
+	 * ¸ù¾İÌõĞÎÂë£¬²éÑ¯ÉÌÆ·ĞÅÏ¢, ²É¹ºÈë¿âµ¥Ê¹ÓÃ
 	 */
 	public function queryGoodsInfoByBarcodeForPW() {
 		if (IS_POST) {
@@ -380,28 +386,28 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * é€šè¿‡Excelå¯¼å…¥å•†å“
+	 * Í¨¹ıExcelµ¼ÈëÉÌÆ·
 	 */
 	public function import() {
 		if (IS_POST) {
 			$us = new UserService();
 			if (! $us->hasPermission(FIdConst::GOODS_IMPORT)) {
-				$this->ajaxReturn($this->noPermission("å¯¼å…¥å•†å“"));
+				$this->ajaxReturn($this->noPermission("µ¼ÈëÉÌÆ·"));
 				return;
 			}
 			
 			$upload = new \Think\Upload();
 			
-			// å…è®¸ä¸Šä¼ çš„æ–‡ä»¶åç¼€
+			// ÔÊĞíÉÏ´«µÄÎÄ¼şºó×º
 			$upload->exts = array(
 					'xls',
 					'xlsx'
 			);
 			
-			// ä¿å­˜è·¯å¾„
+			// ±£´æÂ·¾¶
 			$upload->savePath = '/Goods/';
 			
-			// å…ˆä¸Šä¼ æ–‡ä»¶
+			// ÏÈÉÏ´«ÎÄ¼ş
 			$fileInfo = $upload->uploadOne($_FILES['data_file']);
 			if (! $fileInfo) {
 				$this->ajaxReturn(
@@ -410,8 +416,8 @@ class GoodsController extends PSIBaseController {
 								"success" => false
 						));
 			} else {
-				$uploadFileFullPath = './Uploads' . $fileInfo['savepath'] . $fileInfo['savename']; // è·å–ä¸Šä¼ åˆ°æœåŠ¡å™¨æ–‡ä»¶è·¯å¾„
-				$uploadFileExt = $fileInfo['ext']; // ä¸Šä¼ æ–‡ä»¶æ‰©å±•å
+				$uploadFileFullPath = './Uploads' . $fileInfo['savepath'] . $fileInfo['savename']; // »ñÈ¡ÉÏ´«µ½·şÎñÆ÷ÎÄ¼şÂ·¾¶
+				$uploadFileExt = $fileInfo['ext']; // ÉÏ´«ÎÄ¼şÀ©Õ¹Ãû
 				
 				$params = array(
 						"datafile" => $uploadFileFullPath,
@@ -424,7 +430,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è·å¾—æ‰€æœ‰çš„å•†å“ç§ç±»æ•°
+	 * »ñµÃËùÓĞµÄÉÌÆ·ÖÖÀàÊı
 	 */
 	public function getTotalGoodsCount() {
 		if (IS_POST) {
@@ -441,7 +447,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * å•†å“å“ç‰Œä¸»é¡µé¢
+	 * ÉÌÆ·Æ·ÅÆÖ÷Ò³Ãæ
 	 */
 	public function brandIndex() {
 		$us = new UserService();
@@ -449,7 +455,7 @@ class GoodsController extends PSIBaseController {
 		if ($us->hasPermission(FIdConst::GOODS_BRAND)) {
 			$this->initVar();
 			
-			$this->assign("title", "å•†å“å“ç‰Œ");
+			$this->assign("title", "ÉÌÆ·Æ·ÅÆ");
 			
 			$this->display();
 		} else {
@@ -458,7 +464,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è·å¾—æ‰€æœ‰çš„å“ç‰Œ
+	 * »ñµÃËùÓĞµÄÆ·ÅÆ
 	 */
 	public function allBrands() {
 		if (IS_POST) {
@@ -468,7 +474,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æ–°å¢æˆ–ç¼–è¾‘å•†å“å“ç‰Œ
+	 * ĞÂÔö»ò±à¼­ÉÌÆ·Æ·ÅÆ
 	 */
 	public function editBrand() {
 		if (IS_POST) {
@@ -484,7 +490,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è·å¾—æŸä¸ªå“ç‰Œçš„ä¸Šçº§å“ç‰Œå…¨ç§°
+	 * »ñµÃÄ³¸öÆ·ÅÆµÄÉÏ¼¶Æ·ÅÆÈ«³Æ
 	 */
 	public function brandParentName() {
 		if (IS_POST) {
@@ -498,7 +504,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * åˆ é™¤å•†å“å“ç‰Œ
+	 * É¾³ıÉÌÆ·Æ·ÅÆ
 	 */
 	public function deleteBrand() {
 		if (IS_POST) {
@@ -512,7 +518,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æŸä¸ªå•†å“çš„å•†å“æ„æˆ
+	 * Ä³¸öÉÌÆ·µÄÉÌÆ·¹¹³É
 	 */
 	public function goodsBOMList() {
 		if (IS_POST) {
@@ -526,20 +532,20 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æ–°å¢æˆ–ç¼–è¾‘å•†å“æ„æˆ
+	 * ĞÂÔö»ò±à¼­ÉÌÆ·¹¹³É
 	 */
 	public function editGoodsBOM() {
 		if (IS_POST) {
 			$us = new UserService();
 			if (I("post.id")) {
-				// ç¼–è¾‘
+				// ±à¼­
 				if (! $us->hasPermission(FIdConst::GOODS_BOM_EDIT)) {
-					$this->ajaxReturn($this->noPermission("ç¼–è¾‘å­å•†å“"));
+					$this->ajaxReturn($this->noPermission("±à¼­×ÓÉÌÆ·"));
 					return;
 				}
 			} else {
 				if (! $us->hasPermission(FIdConst::GOODS_BOM_ADD)) {
-					$this->ajaxReturn($this->noPermission("æ–°å»ºå­å•†å“"));
+					$this->ajaxReturn($this->noPermission("ĞÂ½¨×ÓÉÌÆ·"));
 					return;
 				}
 			}
@@ -557,7 +563,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * å­å•†å“å­—æ®µï¼ŒæŸ¥è¯¢æ•°æ®
+	 * ×ÓÉÌÆ·×Ö¶Î£¬²éÑ¯Êı¾İ
 	 */
 	public function queryDataForSubGoods() {
 		if (IS_POST) {
@@ -572,7 +578,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æŸ¥è¯¢å­å•†å“çš„è¯¦ç»†ä¿¡æ¯
+	 * ²éÑ¯×ÓÉÌÆ·µÄÏêÏ¸ĞÅÏ¢
 	 */
 	public function getSubGoodsInfo() {
 		if (IS_POST) {
@@ -587,13 +593,13 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * åˆ é™¤å•†å“æ„æˆä¸­çš„å­å•†å“
+	 * É¾³ıÉÌÆ·¹¹³ÉÖĞµÄ×ÓÉÌÆ·
 	 */
 	public function deleteGoodsBOM() {
 		if (IS_POST) {
 			$us = new UserService();
 			if (! $us->hasPermission(FIdConst::GOODS_BOM_DELETE)) {
-				$this->ajaxReturn($this->noPermission("åˆ é™¤å­å•†å“"));
+				$this->ajaxReturn($this->noPermission("É¾³ı×ÓÉÌÆ·"));
 				return;
 			}
 			
@@ -607,7 +613,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * ä»·æ ¼ä½“ç³» - ä¸»é¡µé¢
+	 * ¼Û¸ñÌåÏµ - Ö÷Ò³Ãæ
 	 */
 	public function psIndex() {
 		$us = new UserService();
@@ -615,7 +621,7 @@ class GoodsController extends PSIBaseController {
 		if ($us->hasPermission(FIdConst::PRICE_SYSTEM)) {
 			$this->initVar();
 			
-			$this->assign("title", "ä»·æ ¼ä½“ç³»");
+			$this->assign("title", "¼Û¸ñÌåÏµ");
 			
 			$this->display();
 		} else {
@@ -624,7 +630,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * ä»·æ ¼ä½“ç³»-ä»·æ ¼åˆ—è¡¨
+	 * ¼Û¸ñÌåÏµ-¼Û¸ñÁĞ±í
 	 */
 	public function priceSystemList() {
 		if (IS_POST) {
@@ -634,7 +640,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æ–°å¢æˆ–ç¼–è¾‘ä»·æ ¼ä½“ç³»ä¸­çš„ä»·æ ¼
+	 * ĞÂÔö»ò±à¼­¼Û¸ñÌåÏµÖĞµÄ¼Û¸ñ
 	 */
 	public function editPriceSystem() {
 		if (IS_POST) {
@@ -650,7 +656,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * åˆ é™¤ä»·æ ¼ä½“ç³»ä¸­çš„ä»·æ ¼
+	 * É¾³ı¼Û¸ñÌåÏµÖĞµÄ¼Û¸ñ
 	 */
 	public function deletePriceSystem() {
 		if (IS_POST) {
@@ -664,7 +670,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æŸ¥è¯¢æŸä¸ªå•†å“çš„æ‰€æœ‰ä»·æ ¼ä½“ç³»é‡Œé¢çš„ä»·æ ¼åˆ—è¡¨
+	 * ²éÑ¯Ä³¸öÉÌÆ·µÄËùÓĞ¼Û¸ñÌåÏµÀïÃæµÄ¼Û¸ñÁĞ±í
 	 */
 	public function goodsPriceSystemList() {
 		if (IS_POST) {
@@ -678,7 +684,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * æŸ¥è¯¢æŸä¸ªå•†å“çš„ä»·æ ¼ä½“ç³»ä¸­æ‰€æœ‰ä»·æ ¼çš„å€¼
+	 * ²éÑ¯Ä³¸öÉÌÆ·µÄ¼Û¸ñÌåÏµÖĞËùÓĞ¼Û¸ñµÄÖµ
 	 */
 	public function goodsPriceSystemInfo() {
 		if (IS_POST) {
@@ -692,7 +698,7 @@ class GoodsController extends PSIBaseController {
 	}
 
 	/**
-	 * è®¾ç½®å•†å“ä»·æ ¼ä½“ç³»ä¸­çš„ä»·æ ¼
+	 * ÉèÖÃÉÌÆ·¼Û¸ñÌåÏµÖĞµÄ¼Û¸ñ
 	 */
 	public function editGoodsPriceSystem() {
 		if (IS_POST) {

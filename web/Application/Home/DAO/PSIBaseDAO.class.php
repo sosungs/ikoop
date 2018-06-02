@@ -3,17 +3,17 @@
 namespace Home\DAO;
 
 /**
- * PSI DAO åŸºç±»
+ * PSI DAO »ùÀà
  *
- * @author æé™æ³¢
+ * @author Àî¾²²¨
  */
 class PSIBaseDAO {
 
 	/**
-	 * æ“ä½œå¤±è´¥
+	 * ²Ù×÷Ê§°Ü
 	 *
 	 * @param string $msg
-	 *        	é”™è¯¯ä¿¡æ¯
+	 *        	´íÎóĞÅÏ¢
 	 * @return array
 	 */
 	protected function bad($msg) {
@@ -24,21 +24,21 @@ class PSIBaseDAO {
 	}
 
 	/**
-	 * æ•°æ®åº“é”™è¯¯
+	 * Êı¾İ¿â´íÎó
 	 *
 	 * @param string $methodName
-	 *        	æ–¹æ³•åç§°
+	 *        	·½·¨Ãû³Æ
 	 * @param int $codeLine
-	 *        	ä»£ç è¡Œå·
+	 *        	´úÂëĞĞºÅ
 	 * @return array
 	 */
 	protected function sqlError($methodName, $codeLine) {
-		$info = "æ•°æ®åº“é”™è¯¯ï¼Œè¯·è”ç³»ç®¡ç†å‘˜<br />é”™è¯¯å®šä½ï¼š{$methodName} - {$codeLine}è¡Œ";
+		$info = "Êı¾İ¿â´íÎó£¬ÇëÁªÏµ¹ÜÀíÔ±<br />´íÎó¶¨Î»£º{$methodName} - {$codeLine}ĞĞ";
 		return $this->bad($info);
 	}
 
 	/**
-	 * æŠŠæ—¶é—´ç±»å‹æ ¼å¼åŒ–æˆç±»ä¼¼2015-08-13çš„æ ¼å¼
+	 * °ÑÊ±¼äÀàĞÍ¸ñÊ½»¯³ÉÀàËÆ2015-08-13µÄ¸ñÊ½
 	 *
 	 * @param string $d        	
 	 * @return string
@@ -48,22 +48,22 @@ class PSIBaseDAO {
 	}
 
 	/**
-	 * å½“å‰åŠŸèƒ½è¿˜æ²¡æœ‰å¼€å‘
+	 * µ±Ç°¹¦ÄÜ»¹Ã»ÓĞ¿ª·¢
 	 *
 	 * @param string $info
-	 *        	é™„åŠ ä¿¡æ¯
+	 *        	¸½¼ÓĞÅÏ¢
 	 * @return array
 	 */
 	protected function todo($info = null) {
 		if ($info) {
 			return array(
 					"success" => false,
-					"msg" => "TODO: åŠŸèƒ½è¿˜æ²¡å¼€å‘, é™„åŠ ä¿¡æ¯ï¼š$info"
+					"msg" => "TODO: ¹¦ÄÜ»¹Ã»¿ª·¢, ¸½¼ÓĞÅÏ¢£º$info"
 			);
 		} else {
 			return array(
 					"success" => false,
-					"msg" => "TODO: åŠŸèƒ½è¿˜æ²¡å¼€å‘"
+					"msg" => "TODO: ¹¦ÄÜ»¹Ã»¿ª·¢"
 			);
 		}
 	}

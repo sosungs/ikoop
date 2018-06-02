@@ -254,8 +254,7 @@ class GoodsService extends PSIBaseExService {
 		$code = $params["code"];
 		$name = $params["name"];
 		$spec = $params["spec"];
-		$chicun = $params["chicun"];
-		$brandname = $params["brandname"];
+		$brandcode = $params["brandcode"];
 		
 		$db = $this->db();
 		$db->startTrans();
@@ -275,7 +274,7 @@ class GoodsService extends PSIBaseExService {
 				return $rc;
 			}
 			
-			$log = "编辑商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec}, 尺寸 = {$chicun}, 品牌 = {$brandname}";
+			$log = "编辑商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec}, 品牌 = {$brandcode}";
 		} else {
 			// 新增
 			
@@ -290,7 +289,7 @@ class GoodsService extends PSIBaseExService {
 			
 			$id = $params["id"];
 			
-			$log = "新增商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec}, 尺寸 = {$chicun}, 品牌 = {$brandname}";
+			$log = "新增商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec}, 品牌 = {$brandcode};
 		}
 		
 		// 记录业务日志
@@ -324,7 +323,8 @@ class GoodsService extends PSIBaseExService {
 		$code = $params["code"];
 		$name = $params["name"];
 		$spec = $params["spec"];
-		$log = "删除商品： 商品编码 = {$code}， 品名 = {$name}，规格型号 = {$spec}， 尺寸 = {$chicun}， 品牌 = {$brandname}";
+		$brandcode = $params["brandcode"];
+		$log = "删除商品： 商品编码 = {$code}， 品名 = {$name}，规格型号 = {$spec}，品牌 = {$brandcode}";
 		$bs = new BizlogService($db);
 		$bs->insertBizlog($log, $this->LOG_CATEGORY_GOODS);
 		

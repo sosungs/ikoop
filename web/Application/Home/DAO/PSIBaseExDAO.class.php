@@ -3,9 +3,9 @@
 namespace Home\DAO;
 
 /**
- * åŸºç¡€ DAO
+ * »ù´¡ DAO
  *
- * @author æŽé™æ³¢
+ * @author Àî¾²²¨
  */
 class PSIBaseExDAO extends PSIBaseDAO {
 	/**
@@ -19,7 +19,7 @@ class PSIBaseExDAO extends PSIBaseDAO {
 	}
 
 	/**
-	 * ç”Ÿæˆå…¨å±€å”¯ä¸€Id ï¼ˆUUIDï¼‰
+	 * Éú³ÉÈ«¾ÖÎ¨Ò»Id £¨UUID£©
 	 *
 	 * @return string
 	 */
@@ -62,10 +62,10 @@ class PSIBaseExDAO extends PSIBaseDAO {
 	}
 
 	/**
-	 * åˆ¤æ–­æ—¥æœŸæ˜¯å¦æ˜¯æ­£ç¡®çš„Y-m-dæ ¼å¼
+	 * ÅÐ¶ÏÈÕÆÚÊÇ·ñÊÇÕýÈ·µÄY-m-d¸ñÊ½
 	 *
 	 * @param string $date        	
-	 * @return boolean true: æ˜¯æ­£ç¡®çš„æ ¼å¼
+	 * @return boolean true: ÊÇÕýÈ·µÄ¸ñÊ½
 	 */
 	protected function dateIsValid($date) {
 		$dt = strtotime($date);
@@ -77,7 +77,7 @@ class PSIBaseExDAO extends PSIBaseDAO {
 	}
 
 	/**
-	 * ç©ºç»“æžœ
+	 * ¿Õ½á¹û
 	 *
 	 * @return array
 	 */
@@ -86,22 +86,22 @@ class PSIBaseExDAO extends PSIBaseDAO {
 	}
 
 	/**
-	 * å‚æ•°é”™è¯¯
+	 * ²ÎÊý´íÎó
 	 *
 	 * @param string $param
-	 *        	å‚æ•°åç§°
+	 *        	²ÎÊýÃû³Æ
 	 * @return array
 	 */
 	protected function badParam($param) {
-		return $this->bad("å‚æ•°" . $param . "ä¸æ­£ç¡®");
+		return $this->bad("²ÎÊý" . $param . "²»ÕýÈ·");
 	}
 
 	/**
-	 * æŠŠè¾“å…¥å­—ç¬¦ä¸²å‰åŽçš„ç©ºæ ¼åŽ»æŽ‰åŽï¼Œåˆ¤æ–­æ˜¯å¦æ˜¯ç©ºå­—ç¬¦ä¸²
+	 * °ÑÊäÈë×Ö·û´®Ç°ºóµÄ¿Õ¸ñÈ¥µôºó£¬ÅÐ¶ÏÊÇ·ñÊÇ¿Õ×Ö·û´®
 	 *
 	 * @param string $s        	
 	 *
-	 * @return true: ç©ºå­—ç¬¦ä¸²
+	 * @return true: ¿Õ×Ö·û´®
 	 */
 	protected function isEmptyStringAfterTrim($s) {
 		$result = trim($s);
@@ -109,12 +109,12 @@ class PSIBaseExDAO extends PSIBaseDAO {
 	}
 
 	/**
-	 * åˆ¤æ–­å­—ç¬¦ä¸²é•¿åº¦æ˜¯å¦è¶…è¿‡é™åº¦
+	 * ÅÐ¶Ï×Ö·û´®³¤¶ÈÊÇ·ñ³¬¹ýÏÞ¶È
 	 *
 	 * @param string $s        	
 	 * @param int $length
-	 *        	é»˜è®¤é•¿åº¦ä¸èƒ½è¶…è¿‡255
-	 * @return bool trueï¼šè¶…è¿‡äº†é™åº¦
+	 *        	Ä¬ÈÏ³¤¶È²»ÄÜ³¬¹ý255
+	 * @return bool true£º³¬¹ýÁËÏÞ¶È
 	 */
 	protected function stringBeyondLimit(string $s, int $length = 255): bool {
 		return strlen($s) > $length;
