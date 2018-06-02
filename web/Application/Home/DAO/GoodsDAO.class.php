@@ -362,10 +362,10 @@ class GoodsDAO extends PSIBaseExDAO {
 		}
 		$code = $goods["code"];
 		$name = $goods["name"];
-		$brand_code = $goods["brand_code"];
+		$brandCode = $goods["brand_code"];
 		$spec = $goods["spec"];
-		$old_spec = $goods["old_spec"];
-		$chicun = $goods["chicun"];
+		$oldSpec = $goods["old_spec"];
+		$chiCun = $goods["chicun"];
 		
 		// 判断商品是否能删除
 		$sql = "select count(*) as cnt from t_po_bill_detail where goods_id = '%s' ";
