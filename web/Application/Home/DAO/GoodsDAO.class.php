@@ -5,14 +5,14 @@ namespace Home\DAO;
 use Home\Common\FIdConst;
 
 /**
- * ÉÌÆ·DAO
+ * å•†å“DAO
  *
- * @author Àî¾²²¨
+ * @author æé™æ³¢
  */
 class GoodsDAO extends PSIBaseExDAO {
 
 	/**
-	 * ÉÌÆ·ÁĞ±í
+	 * å•†å“åˆ—è¡¨
 	 *
 	 * @param array $params        	
 	 * @return array
@@ -36,7 +36,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		
 		$result = [];
 		$sql = "select g.id, g.code, g.name, g.sale_price, g.spec,  g.unit_id, u.name as unit_name,
-					g.purchase_price, g.bar_code, g.memo, g.data_org, g.brand_id, g.brand_code, g.old_spec, g.chicun
+					g.purchase_price, g.bar_code, g.memo, g.data_org, g.brand_id
 				from t_goods g, t_goods_unit u
 				where (g.unit_id = u.id) and (g.category_id = '%s') ";
 		$queryParam = [];
@@ -79,11 +79,8 @@ class GoodsDAO extends PSIBaseExDAO {
 					"id" => $v["id"],
 					"code" => $v["code"],
 					"name" => $v["name"],
-					"brandCode" => $v["brand_code"],
 					"salePrice" => $v["sale_price"],
 					"spec" => $v["spec"],
-					"oldSpec" => $v["old_spec"],
-					"chiCun" => $v["chicun"],
 					"unitId" => $v["unit_id"],
 					"unitName" => $v["unit_name"],
 					"purchasePrice" => $v["purchase_price"] == 0 ? null : $v["purchase_price"],
@@ -141,7 +138,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * ĞÂÔöÉÌÆ·
+	 * æ–°å¢å•†å“
 	 *
 	 * @param array $params        	
 	 * @return NULL|array
@@ -151,10 +148,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		
 		$code = $params["code"];
 		$name = $params["name"];
-		$brandCode = $params["brandCode"];
 		$spec = $params["spec"];
-		$oldSpec = $params["oldSpec"];
-		$chiCun = $params["chiCun"];
 		$categoryId = $params["categoryId"];
 		$unitId = $params["unitId"];
 		$salePrice = $params["salePrice"];
@@ -178,61 +172,61 @@ class GoodsDAO extends PSIBaseExDAO {
 		$goodsUnitDAO = new GoodsUnitDAO($db);
 		$unit = $goodsUnitDAO->getGoodsUnitById($unitId);
 		if (! $unit) {
-			return $this->bad("¼ÆÁ¿µ¥Î»²»´æÔÚ");
+			return $this->bad("è®¡é‡å•ä½ä¸å­˜åœ¨");
 		}
 		
 		$goodsCategoryDAO = new GoodsCategoryDAO($db);
 		$category = $goodsCategoryDAO->getGoodsCategoryById($categoryId);
 		if (! $category) {
-			return $this->bad("ÉÌÆ··ÖÀà²»´æÔÚ");
+			return $this->bad("å•†å“åˆ†ç±»ä¸å­˜åœ¨");
 		}
 		
-		// ¼ì²éÉÌÆ·Æ·ÅÆ
-	//	if ($brandId) {
-	//		$brandDAO = new GoodsBrandDAO($db);
-	//		$brand = $brandDAO->getBrandById($brandId);
-	//		if (! $brand) {
-	//			return $this->bad("ÉÌÆ·Æ·ÅÆ²»´æÔÚ");
-	//		}
-	//	}
+		// æ£€æŸ¥å•†å“å“ç‰Œ
+		if ($brandId) {
+			$brandDAO = new GoodsBrandDAO($db);
+			$brand = $brandDAO->getBrandById($brandId);
+			if (! $brand) {
+				return $this->bad("å•†å“å“ç‰Œä¸å­˜åœ¨");
+			}
+		}
 		
-		// ¼ì²éÉÌÆ·±àÂëÊÇ·ñÎ¨Ò»
+		// æ£€æŸ¥å•†å“ç¼–ç æ˜¯å¦å”¯ä¸€
 		$sql = "select count(*) as cnt from t_goods where code = '%s' ";
 		$data = $db->query($sql, $code);
 		$cnt = $data[0]["cnt"];
 		if ($cnt > 0) {
-			return $this->bad("±àÂëÎª [{$code}]µÄÉÌÆ·ÒÑ¾­´æÔÚ");
+			return $this->bad("ç¼–ç ä¸º [{$code}]çš„å•†å“å·²ç»å­˜åœ¨");
 		}
 		
-		// Èç¹ûÂ¼ÈëÁËÌõĞÎÂë£¬ÔòĞèÒª¼ì²éÌõĞÎÂëÊÇ·ñÎ¨Ò»
+		// å¦‚æœå½•å…¥äº†æ¡å½¢ç ï¼Œåˆ™éœ€è¦æ£€æŸ¥æ¡å½¢ç æ˜¯å¦å”¯ä¸€
 		if ($barCode) {
 			$sql = "select count(*) as cnt from t_goods where bar_code = '%s' ";
 			$data = $db->query($sql, $barCode);
 			$cnt = $data[0]["cnt"];
 			if ($cnt != 0) {
-				return $this->bad("ÌõĞÎÂë[{$barCode}]ÒÑ¾­±»ÆäËûÉÌÆ·Ê¹ÓÃ");
+				return $this->bad("æ¡å½¢ç [{$barCode}]å·²ç»è¢«å…¶ä»–å•†å“ä½¿ç”¨");
 			}
 		}
 		
 		$id = $this->newId();
 		$sql = "insert into t_goods (id, code, name, spec, category_id, unit_id, sale_price,
-					py, purchase_price, bar_code, memo, data_org, company_id, spec_py, brand_id, brand_code, old_spec, chicun)
-				values ('%s', '%s', '%s', '%s', '%s', '%s', %f, '%s', %f, '%s', '%s', '%s', '%s', '%s', '%f', '%f', '%f',
+					py, purchase_price, bar_code, memo, data_org, company_id, spec_py, brand_id)
+				values ('%s', '%s', '%s', '%s', '%s', '%s', %f, '%s', %f, '%s', '%s', '%s', '%s', '%s',
 					if('%s' = '', null, '%s'))";
 		$rc = $db->execute($sql, $id, $code, $name, $spec, $categoryId, $unitId, $salePrice, $py, 
-				$purchasePrice, $barCode, $memo, $dataOrg, $companyId, $specPY, $brandId, $brandId), $barCode, $oldSpec, $chi;
+				$purchasePrice, $barCode, $memo, $dataOrg, $companyId, $specPY, $brandId, $brandId);
 		if ($rc === false) {
 			return $this->sqlError(__METHOD__, __LINE__);
 		}
 		
 		$params["id"] = $id;
 		
-		// ²Ù×÷³É¹¦
+		// æ“ä½œæˆåŠŸ
 		return null;
 	}
 
 	/**
-	 * ±à¼­ÉÌÆ·
+	 * ç¼–è¾‘å•†å“
 	 *
 	 * @param array $params        	
 	 * @return array
@@ -243,10 +237,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		$id = $params["id"];
 		$code = $params["code"];
 		$name = $params["name"];
-		$brandCode = $params["brandCode"];
 		$spec = $params["spec"];
-		$oldSpec = $params["oldSpec"];
-		$chiCun = $params["chiCun"];
 		$categoryId = $params["categoryId"];
 		$unitId = $params["unitId"];
 		$salePrice = $params["salePrice"];
@@ -260,68 +251,68 @@ class GoodsDAO extends PSIBaseExDAO {
 		
 		$goods = $this->getGoodsById($id);
 		if (! $goods) {
-			return $this->bad("Òª±à¼­µÄÉÌÆ·²»´æÔÚ");
+			return $this->bad("è¦ç¼–è¾‘çš„å•†å“ä¸å­˜åœ¨");
 		}
 		
 		$goodsUnitDAO = new GoodsUnitDAO($db);
 		$unit = $goodsUnitDAO->getGoodsUnitById($unitId);
 		if (! $unit) {
-			return $this->bad("¼ÆÁ¿µ¥Î»²»´æÔÚ");
+			return $this->bad("è®¡é‡å•ä½ä¸å­˜åœ¨");
 		}
 		
 		$goodsCategoryDAO = new GoodsCategoryDAO($db);
 		$category = $goodsCategoryDAO->getGoodsCategoryById($categoryId);
 		if (! $category) {
-			return $this->bad("ÉÌÆ··ÖÀà²»´æÔÚ");
+			return $this->bad("å•†å“åˆ†ç±»ä¸å­˜åœ¨");
 		}
 		
-		// ¼ì²éÉÌÆ·Æ·ÅÆ
-	//	if ($brandId) {
-	//		$brandDAO = new GoodsBrandDAO($db);
-	//		$brand = $brandDAO->getBrandById($brandId);
-	//		if (! $brand) {
-	//			return $this->bad("ÉÌÆ·Æ·ÅÆ²»´æÔÚ");
-	//		}
-	//	}
+		// æ£€æŸ¥å•†å“å“ç‰Œ
+		if ($brandId) {
+			$brandDAO = new GoodsBrandDAO($db);
+			$brand = $brandDAO->getBrandById($brandId);
+			if (! $brand) {
+				return $this->bad("å•†å“å“ç‰Œä¸å­˜åœ¨");
+			}
+		}
 		
-		// ±à¼­
-		// ¼ì²éÉÌÆ·±àÂëÊÇ·ñÎ¨Ò»
+		// ç¼–è¾‘
+		// æ£€æŸ¥å•†å“ç¼–ç æ˜¯å¦å”¯ä¸€
 		$sql = "select count(*) as cnt from t_goods where code = '%s' and id <> '%s' ";
 		$data = $db->query($sql, $code, $id);
 		$cnt = $data[0]["cnt"];
 		if ($cnt > 0) {
-			return $this->bad("±àÂëÎª [{$code}]µÄÉÌÆ·ÒÑ¾­´æÔÚ");
+			return $this->bad("ç¼–ç ä¸º [{$code}]çš„å•†å“å·²ç»å­˜åœ¨");
 		}
 		
-		// Èç¹ûÂ¼ÈëÁËÌõĞÎÂë£¬ÔòĞèÒª¼ì²éÌõĞÎÂëÊÇ·ñÎ¨Ò»
+		// å¦‚æœå½•å…¥äº†æ¡å½¢ç ï¼Œåˆ™éœ€è¦æ£€æŸ¥æ¡å½¢ç æ˜¯å¦å”¯ä¸€
 		if ($barCode) {
 			$sql = "select count(*) as cnt from t_goods where bar_code = '%s' and id <> '%s' ";
 			$data = $db->query($sql, $barCode, $id);
 			$cnt = $data[0]["cnt"];
 			if ($cnt != 0) {
-				return $this->bad("ÌõĞÎÂë[{$barCode}]ÒÑ¾­±»ÆäËûÉÌÆ·Ê¹ÓÃ");
+				return $this->bad("æ¡å½¢ç [{$barCode}]å·²ç»è¢«å…¶ä»–å•†å“ä½¿ç”¨");
 			}
 		}
 		
 		$sql = "update t_goods
-				set code = '%s', name = '%s', spec = '%s', old_spec = '%f', brand_code = '%f', chicun = '%f', category_id = '%s',
+				set code = '%s', name = '%s', spec = '%s', category_id = '%s',
 				    unit_id = '%s', sale_price = %f, py = '%s', purchase_price = %f,
 					bar_code = '%s', memo = '%s', spec_py = '%s',
 					brand_id = if('%s' = '', null, '%s')
 				where id = '%s' ";
 		
 		$rc = $db->execute($sql, $code, $name, $spec, $categoryId, $unitId, $salePrice, $py, 
-				$purchasePrice, $barCode, $memo, $specPY, $brandId, $brandId, $id, $oldSpec, $chiCun, $brandCode);
+				$purchasePrice, $barCode, $memo, $specPY, $brandId, $brandId, $id);
 		if ($rc === false) {
 			return $this->sqlError(__METHOD__, __LINE__);
 		}
 		
-		// ²Ù×÷³É¹¦
+		// æ“ä½œæˆåŠŸ
 		return null;
 	}
 
 	/**
-	 * Í¨¹ıÉÌÆ·id²éÑ¯ÉÌÆ·
+	 * é€šè¿‡å•†å“idæŸ¥è¯¢å•†å“
 	 *
 	 * @param string $id        	
 	 * @return array|NULL
@@ -335,10 +326,7 @@ class GoodsDAO extends PSIBaseExDAO {
 			return array(
 					"code" => $data[0]["code"],
 					"name" => $data[0]["name"],
-					"brand_code" => $data[0]["brand_code"],
-					"spec" => $data[0]["spec"],
-					"old_spec" => $data[0]["old_spec"],
-					"chicun" => $data[0]["chicun"]
+					"spec" => $data[0]["spec"]
 			);
 		} else {
 			return null;
@@ -346,7 +334,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * É¾³ıÉÌÆ·
+	 * åˆ é™¤å•†å“
 	 *
 	 * @param array $params        	
 	 * @return NULL|array
@@ -358,42 +346,39 @@ class GoodsDAO extends PSIBaseExDAO {
 		
 		$goods = $this->getGoodsById($id);
 		if (! $goods) {
-			return $this->bad("ÒªÉ¾³ıµÄÉÌÆ·²»´æÔÚ");
+			return $this->bad("è¦åˆ é™¤çš„å•†å“ä¸å­˜åœ¨");
 		}
 		$code = $goods["code"];
 		$name = $goods["name"];
-		$brandCode = $goods["brand_code"];
 		$spec = $goods["spec"];
-		$oldSpec = $goods["old_spec"];
-		$chiCun = $goods["chicun"];
 		
-		// ÅĞ¶ÏÉÌÆ·ÊÇ·ñÄÜÉ¾³ı
+		// åˆ¤æ–­å•†å“æ˜¯å¦èƒ½åˆ é™¤
 		$sql = "select count(*) as cnt from t_po_bill_detail where goods_id = '%s' ";
 		$data = $db->query($sql, $id);
 		$cnt = $data[0]["cnt"];
 		if ($cnt > 0) {
-			return $this->bad("ÉÌÆ·[{$code} {$name}]ÒÑ¾­ÔÚ²É¹º¶©µ¥ÖĞÊ¹ÓÃÁË£¬²»ÄÜÉ¾³ı");
+			return $this->bad("å•†å“[{$code} {$name}]å·²ç»åœ¨é‡‡è´­è®¢å•ä¸­ä½¿ç”¨äº†ï¼Œä¸èƒ½åˆ é™¤");
 		}
 		
 		$sql = "select count(*) as cnt from t_pw_bill_detail where goods_id = '%s' ";
 		$data = $db->query($sql, $id);
 		$cnt = $data[0]["cnt"];
 		if ($cnt > 0) {
-			return $this->bad("ÉÌÆ·[{$code} {$name}]ÒÑ¾­ÔÚ²É¹ºÈë¿âµ¥ÖĞÊ¹ÓÃÁË£¬²»ÄÜÉ¾³ı");
+			return $this->bad("å•†å“[{$code} {$name}]å·²ç»åœ¨é‡‡è´­å…¥åº“å•ä¸­ä½¿ç”¨äº†ï¼Œä¸èƒ½åˆ é™¤");
 		}
 		
 		$sql = "select count(*) as cnt from t_ws_bill_detail where goods_id = '%s' ";
 		$data = $db->query($sql, $id);
 		$cnt = $data[0]["cnt"];
 		if ($cnt > 0) {
-			return $this->bad("ÉÌÆ·[{$code} {$name}]ÒÑ¾­ÔÚÏúÊÛ³ö¿âµ¥ÖĞÊ¹ÓÃÁË£¬²»ÄÜÉ¾³ı");
+			return $this->bad("å•†å“[{$code} {$name}]å·²ç»åœ¨é”€å”®å‡ºåº“å•ä¸­ä½¿ç”¨äº†ï¼Œä¸èƒ½åˆ é™¤");
 		}
 		
 		$sql = "select count(*) as cnt from t_inventory_detail where goods_id = '%s' ";
 		$data = $db->query($sql, $id);
 		$cnt = $data[0]["cnt"];
 		if ($cnt > 0) {
-			return $this->bad("ÉÌÆ·[{$code} {$name}]ÔÚÒµÎñÖĞÒÑ¾­Ê¹ÓÃÁË£¬²»ÄÜÉ¾³ı");
+			return $this->bad("å•†å“[{$code} {$name}]åœ¨ä¸šåŠ¡ä¸­å·²ç»ä½¿ç”¨äº†ï¼Œä¸èƒ½åˆ é™¤");
 		}
 		
 		$sql = "delete from t_goods where id = '%s' ";
@@ -406,12 +391,12 @@ class GoodsDAO extends PSIBaseExDAO {
 		$params["name"] = $name;
 		$params["spec"] = $spec;
 		
-		// ²Ù×÷³É¹¦
+		// æ“ä½œæˆåŠŸ
 		return null;
 	}
 
 	/**
-	 * ÉÌÆ·×Ö¶Î£¬²éÑ¯Êı¾İ
+	 * å•†å“å­—æ®µï¼ŒæŸ¥è¯¢æ•°æ®
 	 *
 	 * @param array $params        	
 	 * @return array
@@ -482,7 +467,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * ÉÌÆ·×Ö¶Î£¬²éÑ¯Êı¾İ
+	 * å•†å“å­—æ®µï¼ŒæŸ¥è¯¢æ•°æ®
 	 *
 	 * @param array $params        	
 	 * @return array
@@ -505,7 +490,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		
 		$key = "%{$queryKey}%";
 		
-		$sql = "select g.id, g.code, g.name, g.brand_code, g.spec, g.old_spec, g.chicun, u.name as unit_name, g.sale_price, g.memo
+		$sql = "select g.id, g.code, g.name, g.spec, u.name as unit_name, g.sale_price, g.memo
 				from t_goods g, t_goods_unit u
 				where (g.unit_id = u.id)
 				and (g.code like '%s' or g.name like '%s' or g.py like '%s'
@@ -535,7 +520,7 @@ class GoodsDAO extends PSIBaseExDAO {
 			$price = $v["sale_price"];
 			
 			if ($psId) {
-				// È¡¼Û¸ñÌåÏµÀïÃæµÄ¼Û¸ñ
+				// å–ä»·æ ¼ä½“ç³»é‡Œé¢çš„ä»·æ ¼
 				$goodsId = $v["id"];
 				$sql = "select g.price, p.name
 						from t_goods_price g, t_price_system p
@@ -552,10 +537,7 @@ class GoodsDAO extends PSIBaseExDAO {
 					"id" => $v["id"],
 					"code" => $v["code"],
 					"name" => $v["name"],
-					"brandCode" => $v["brand_code"],
 					"spec" => $v["spec"],
-					"oldSpec" => $v["old_spec"],
-					"chiCun" => $v["chicun"],
 					"unitName" => $v["unit_name"],
 					"salePrice" => $price,
 					"priceSystem" => $priceSystem,
@@ -567,7 +549,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * ÉÌÆ·×Ö¶Î£¬²éÑ¯Êı¾İ
+	 * å•†å“å­—æ®µï¼ŒæŸ¥è¯¢æ•°æ®
 	 *
 	 * @param array $params        	
 	 * @return array
@@ -627,7 +609,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * »ñµÃÄ³¸öÉÌÆ·µÄÏêÇé
+	 * è·å¾—æŸä¸ªå•†å“çš„è¯¦æƒ…
 	 *
 	 * @param array $params        	
 	 * @return array
@@ -693,7 +675,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * Í¨¹ıÌõĞÎÂë²éÑ¯ÉÌÆ·ĞÅÏ¢, ÏúÊÛ³ö¿âµ¥Ê¹ÓÃ
+	 * é€šè¿‡æ¡å½¢ç æŸ¥è¯¢å•†å“ä¿¡æ¯, é”€å”®å‡ºåº“å•ä½¿ç”¨
 	 *
 	 * @param array $params        	
 	 * @return array
@@ -712,7 +694,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		
 		if (! $data) {
 			$result["success"] = false;
-			$result["msg"] = "ÌõÂëÎª[{$barcode}]µÄÉÌÆ·²»´æÔÚ";
+			$result["msg"] = "æ¡ç ä¸º[{$barcode}]çš„å•†å“ä¸å­˜åœ¨";
 		} else {
 			$result["success"] = true;
 			$result["id"] = $data[0]["id"];
@@ -727,7 +709,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * Í¨¹ıÌõĞÎÂë²éÑ¯ÉÌÆ·ĞÅÏ¢, ²É¹ºÈë¿âµ¥Ê¹ÓÃ
+	 * é€šè¿‡æ¡å½¢ç æŸ¥è¯¢å•†å“ä¿¡æ¯, é‡‡è´­å…¥åº“å•ä½¿ç”¨
 	 *
 	 * @param array $params        	
 	 * @return array
@@ -746,7 +728,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		
 		if (! $data) {
 			$result["success"] = false;
-			$result["msg"] = "ÌõÂëÎª[{$barcode}]µÄÉÌÆ·²»´æÔÚ";
+			$result["msg"] = "æ¡ç ä¸º[{$barcode}]çš„å•†å“ä¸å­˜åœ¨";
 		} else {
 			$result["success"] = true;
 			$result["id"] = $data[0]["id"];
@@ -761,7 +743,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * ²éÑ¯ÉÌÆ·ÖÖÀà×ÜÊı
+	 * æŸ¥è¯¢å•†å“ç§ç±»æ€»æ•°
 	 *
 	 * @param array $params        	
 	 * @return int
@@ -811,7 +793,7 @@ class GoodsDAO extends PSIBaseExDAO {
 	}
 
 	/**
-	 * ×ÓÉÌÆ·×Ö¶Î£¬²éÑ¯Êı¾İ
+	 * å­å•†å“å­—æ®µï¼ŒæŸ¥è¯¢æ•°æ®
 	 *
 	 * @param array $params        	
 	 * @return array
