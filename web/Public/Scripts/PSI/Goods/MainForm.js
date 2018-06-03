@@ -339,7 +339,7 @@ Ext.define("PSI.Goods.MainForm", {
 								width : 180
 							}, {
 								header : "品牌标识",
-								dataIndex : "brandName",
+								dataIndex : "brandcode",
 								menuDisabled : true,
 								sortable : false
 							}, {
@@ -350,13 +350,13 @@ Ext.define("PSI.Goods.MainForm", {
 								width : 180
 							}, {
 								header : "旧代号",
-								dataIndex : "oldSpec",
+								dataIndex : "oldspec",
 								menuDisabled : true,
 								sortable : false,
 								width : 120
 							}, {
 								header : "尺寸",
-								dataIndex : "chiCun",
+								dataIndex : "chicun",
 								menuDisabled : true,
 								sortable : false
 							}, {

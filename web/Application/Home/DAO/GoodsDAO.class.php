@@ -23,7 +23,10 @@ class GoodsDAO extends PSIBaseExDAO {
 		$categoryId = $params["categoryId"];
 		$code = $params["code"];
 		$name = $params["name"];
+		$brandcode = $params["brandcode"];
 		$spec = $params["spec"];
+		$oldspec = $params["oldspec"];
+		$chicun = $params["chicun"];
 		$barCode = $params["barCode"];
 		
 		$start = $params["start"];
@@ -35,7 +38,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		}
 		
 		$result = [];
-		$sql = "select g.id, g.code, g.name, g.sale_price, g.spec,  g.unit_id, u.name as unit_name,
+		$sql = "select g.id, g.code, g.name, g.sale_price, g.spec, g.oldspec, g.chicun, g.brand_code, g.unit_id, u.name as unit_name,
 					g.purchase_price, g.bar_code, g.memo, g.data_org, g.brand_id
 				from t_goods g, t_goods_unit u
 				where (g.unit_id = u.id) and (g.category_id = '%s') ";
@@ -79,6 +82,9 @@ class GoodsDAO extends PSIBaseExDAO {
 					"id" => $v["id"],
 					"code" => $v["code"],
 					"name" => $v["name"],
+					"brandcode" => $v["brandcode"],
+					"oldspec" => $v["oldspec"],
+					"chicun" => $v["chicun"],
 					"salePrice" => $v["sale_price"],
 					"spec" => $v["spec"],
 					"unitId" => $v["unit_id"],

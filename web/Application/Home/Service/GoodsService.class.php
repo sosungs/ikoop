@@ -254,8 +254,9 @@ class GoodsService extends PSIBaseExService {
 		$code = $params["code"];
 		$name = $params["name"];
 		$spec = $params["spec"];
+		$oldspec = $params["oldspec"];
 		$chicun = $params["chicun"];
-		$brandname = $params["brandname"];
+		$brandcode = $params["brandcode"];
 		
 		$db = $this->db();
 		$db->startTrans();

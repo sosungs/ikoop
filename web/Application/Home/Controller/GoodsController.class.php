@@ -24,7 +24,7 @@ class GoodsController extends PSIBaseController {
 		if ($us->hasPermission(FIdConst::GOODS)) {
 			$this->initVar();
 			
-			$this->assign("title", "商品");
+			$this->assign("title", "商品目录");
 			
 			$this->assign("pAddCategory", $us->hasPermission(FIdConst::GOODS_CATEGORY_ADD) ? 1 : 0);
 			$this->assign("pEditCategory", 
