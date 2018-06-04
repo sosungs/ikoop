@@ -171,16 +171,16 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										}
 									}
 								}, {
-									id : "PSI_Goods_GoodsEditForm_editBrandName",
+									id : "PSI_Goods_GoodsEditForm_editBrandcode",
 									fieldLabel : "品牌",
 									colspan : 2,
 									width : 430,
 									allowBlank : false,
 									blankText : "没有输入品牌",
 									beforeLabelTextTpl : PSI.Const.REQUIRED,
-									name : "brandName",
+									name : "brandcode",
 									value : entity == null ? null : entity
-											.get("brandName"),
+											.get("brandcode"),
 									listeners : {
 										specialkey : {
 											fn : me.onEditSpecialKey,
@@ -202,13 +202,13 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										}
 									}
 								}, {
-									id : "PSI_Goods_GoodsEditForm_editoldSpec",
+									id : "PSI_Goods_GoodsEditForm_editOldspec",
 									fieldLabel : "旧代号",
 									colspan : 2,
 									width : 430,
-									name : "oldSpec",
+									name : "oldspec",
 									value : entity == null ? null : entity
-											.get("oldSpec"),
+											.get("oldspec"),
 									listeners : {
 										specialkey : {
 											fn : me.onEditSpecialKey,
@@ -216,13 +216,13 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										}
 									}
 								}, {
-									id : "PSI_Goods_GoodsEditForm_editchiCun",
+									id : "PSI_Goods_GoodsEditForm_editChicun",
 									fieldLabel : "尺寸",
 									colspan : 2,
 									width : 430,
-									name : "chiCun",
+									name : "chicun",
 									value : entity == null ? null : entity
-											.get("chiCun"),
+											.get("chicun"),
 									listeners : {
 										specialkey : {
 											fn : me.onEditSpecialKey,

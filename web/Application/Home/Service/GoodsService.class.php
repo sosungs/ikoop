@@ -276,7 +276,7 @@ class GoodsService extends PSIBaseExService {
 				return $rc;
 			}
 			
-			$log = "编辑商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec}, 尺寸 = {$chicun}, 品牌 = {$brandname}";
+			$log = "编辑商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec}, 旧代号 = {$oldspec}, 尺寸 = {$chicun}, 品牌 = {$brandcode}";
 		} else {
 			// 新增
 			
@@ -291,7 +291,7 @@ class GoodsService extends PSIBaseExService {
 			
 			$id = $params["id"];
 			
-			$log = "新增商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec}, 尺寸 = {$chicun}, 品牌 = {$brandname}";
+			$log = "新增商品: 商品编码 = {$code}, 品名 = {$name}, 规格型号 = {$spec}, 旧代号 = {$oldspec}, 尺寸 = {$chicun}, 品牌 = {$brandcode}";
 		}
 		
 		// 记录业务日志

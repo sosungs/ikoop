@@ -154,7 +154,10 @@ class GoodsDAO extends PSIBaseExDAO {
 		
 		$code = $params["code"];
 		$name = $params["name"];
+		$brandcode = $params["brandcode"];
 		$spec = $params["spec"];
+		$oldspec = $params["oldspec"];
+		$chicun = $params["chicun"];
 		$categoryId = $params["categoryId"];
 		$unitId = $params["unitId"];
 		$salePrice = $params["salePrice"];
@@ -215,11 +218,11 @@ class GoodsDAO extends PSIBaseExDAO {
 		}
 		
 		$id = $this->newId();
-		$sql = "insert into t_goods (id, code, name, spec, category_id, unit_id, sale_price,
+		$sql = "insert into t_goods (id, code, name, brand_code, spec, old_spec, chicun, category_id, unit_id, sale_price,
 					py, purchase_price, bar_code, memo, data_org, company_id, spec_py, brand_id)
-				values ('%s', '%s', '%s', '%s', '%s', '%s', %f, '%s', %f, '%s', '%s', '%s', '%s', '%s',
+				values ('%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', %f, '%s', %f, '%s', '%s', '%s', '%s', '%s',
 					if('%s' = '', null, '%s'))";
-		$rc = $db->execute($sql, $id, $code, $name, $spec, $categoryId, $unitId, $salePrice, $py, 
+		$rc = $db->execute($sql, $id, $code, $name, $brandcode, $spec, $oldspec, $chicun, $categoryId, $unitId, $salePrice, $py, 
 				$purchasePrice, $barCode, $memo, $dataOrg, $companyId, $specPY, $brandId, $brandId);
 		if ($rc === false) {
 			return $this->sqlError(__METHOD__, __LINE__);
@@ -243,7 +246,10 @@ class GoodsDAO extends PSIBaseExDAO {
 		$id = $params["id"];
 		$code = $params["code"];
 		$name = $params["name"];
+		$brandcode = $params["brandcode"];
 		$spec = $params["spec"];
+		$oldspec = $params["oldspec"];
+		$chicun = $params["chicun"];
 		$categoryId = $params["categoryId"];
 		$unitId = $params["unitId"];
 		$salePrice = $params["salePrice"];
@@ -301,13 +307,13 @@ class GoodsDAO extends PSIBaseExDAO {
 		}
 		
 		$sql = "update t_goods
-				set code = '%s', name = '%s', spec = '%s', category_id = '%s',
+				set code = '%s', name = '%s', brand_code = '%s', spec = '%s', old_spec = '%s', chicun = '%s', category_id = '%s',
 				    unit_id = '%s', sale_price = %f, py = '%s', purchase_price = %f,
 					bar_code = '%s', memo = '%s', spec_py = '%s',
 					brand_id = if('%s' = '', null, '%s')
 				where id = '%s' ";
 		
-		$rc = $db->execute($sql, $code, $name, $spec, $categoryId, $unitId, $salePrice, $py, 
+		$rc = $db->execute($sql, $code, $name, $brandcode, $spec, $oldspec, $chicun, $categoryId, $unitId, $salePrice, $py, 
 				$purchasePrice, $barCode, $memo, $specPY, $brandId, $brandId, $id);
 		if ($rc === false) {
 			return $this->sqlError(__METHOD__, __LINE__);
