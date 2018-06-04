@@ -243,7 +243,7 @@ Ext.define("PSI.Goods.MainForm", {
 		var modelName = "PSIGoods";
 		Ext.define(modelName, {
 					extend : "Ext.data.Model",
-					fields : ["id", "code", "name", "spec", "unitId",
+					fields : ["id", "code", "name", "brandcode", "spec", "oldspec", "chicun", "unitId",
 							"unitName", "categoryId", "salePrice",
 							"purchasePrice", "barCode", "memo", "dataOrg",
 							"brandFullName"]
