@@ -347,15 +347,16 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 		me.editChicun = Ext.getCmp("PSI_Goods_GoodsEditForm_editChicun");
 		me.editUnit = Ext.getCmp("PSI_Goods_GoodsEditForm_editUnit");
 		me.editBarCode = Ext.getCmp("PSI_Goods_GoodsEditForm_editBarCode");
-		me.editBrand = Ext.getCmp("PSI_Goods_GoodsEditForm_editBrand");
-		me.editBrandId = Ext.getCmp("PSI_Goods_GoodsEditForm_editBrandId");
+		//me.editBrand = Ext.getCmp("PSI_Goods_GoodsEditForm_editBrand");
+		//me.editBrandId = Ext.getCmp("PSI_Goods_GoodsEditForm_editBrandId");
 		me.editSalePrice = Ext.getCmp("PSI_Goods_GoodsEditForm_editSalePrice");
 		me.editPurchasePrice = Ext
 				.getCmp("PSI_Goods_GoodsEditForm_editPurchasePrice");
 		me.editMemo = Ext.getCmp("PSI_Goods_GoodsEditForm_editMemo");
 
 		me.__editorList = [me.editCategory, me.editCode, me.editName,
-				me.editSpec, me.editUnit, me.editBarCode, me.editBrand,
+				me.editBrandcode, me.editOldspec, me.editChicun,
+				me.editSpec, me.editUnit, me.editBarCode,
 				me.editSalePrice, me.editPurchasePrice, me.editMemo];
 	},
 
