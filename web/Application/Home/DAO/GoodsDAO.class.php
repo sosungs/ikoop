@@ -549,10 +549,7 @@ class GoodsDAO extends PSIBaseExDAO {
 					"id" => $v["id"],
 					"code" => $v["code"],
 					"name" => $v["name"],
-					"brandcode" => $v["brand_code"];
 					"spec" => $v["spec"],
-					"oldspec" => $v["old_spec"],
-					"chicun" => $v["chicun"],
 					"unitName" => $v["unit_name"],
 					"salePrice" => $price,
 					"priceSystem" => $priceSystem,
