@@ -239,7 +239,7 @@ class GoodsController extends PSIBaseController {
 					"salePrice" => I("post.salePrice"),
 					"purchasePrice" => I("post.purchasePrice"),
 					"barCode" => I("post.barCode"),
-					"brandId" => I("post.brandId"),
+					//"brandId" => I("post.brandId"),
 					"memo" => I("post.memo")
 			);
 			$gs = new GoodsService();

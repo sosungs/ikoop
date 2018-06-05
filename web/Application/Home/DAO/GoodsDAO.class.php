@@ -75,8 +75,8 @@ class GoodsDAO extends PSIBaseExDAO {
 		$data = $db->query($sql, $queryParam);
 		
 		foreach ( $data as $v ) {
-			$brandId = $v["brand_id"];
-			$brandFullName = $brandId ? $this->getBrandFullNameById($db, $brandId) : null;
+			//$brandId = $v["brand_id"];
+			//$brandFullName = $brandId ? $this->getBrandFullNameById($db, $brandId) : null;
 			
 			$result[] = [
 					"id" => $v["id"],
@@ -133,15 +133,15 @@ class GoodsDAO extends PSIBaseExDAO {
 		];
 	}
 
-	private function getBrandFullNameById($db, $brandId) {
-		$sql = "select full_name from t_goods_brand where id = '%s' ";
-		$data = $db->query($sql, $brandId);
-		if ($data) {
-			return $data[0]["full_name"];
-		} else {
-			return null;
-		}
-	}
+//	private function getBrandFullNameById($db, $brandId) {
+//		$sql = "select full_name from t_goods_brand where id = '%s' ";
+//		$data = $db->query($sql, $brandId);
+//		if ($data) {
+//			return $data[0]["full_name"];
+//		} else {
+//			return null;
+//		}
+//	}
 
 	/**
 	 * 新增商品
@@ -164,7 +164,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		$purchasePrice = $params["purchasePrice"];
 		$barCode = $params["barCode"];
 		$memo = $params["memo"];
-		$brandId = $params["brandId"];
+	//	$brandId = $params["brandId"];
 		
 		$dataOrg = $params["dataOrg"];
 		$companyId = $params["companyId"];
@@ -191,13 +191,13 @@ class GoodsDAO extends PSIBaseExDAO {
 		}
 		
 		// 检查商品品牌
-		if ($brandId) {
-			$brandDAO = new GoodsBrandDAO($db);
-			$brand = $brandDAO->getBrandById($brandId);
-			if (! $brand) {
-				return $this->bad("商品品牌不存在");
-			}
-		}
+	//	if ($brandId) {
+	//		$brandDAO = new GoodsBrandDAO($db);
+	//		$brand = $brandDAO->getBrandById($brandId);
+	//		if (! $brand) {
+	//			return $this->bad("商品品牌不存在");
+	//		}
+	//	}
 		
 		// 检查商品编码是否唯一
 		$sql = "select count(*) as cnt from t_goods where code = '%s' ";
@@ -256,7 +256,7 @@ class GoodsDAO extends PSIBaseExDAO {
 		$purchasePrice = $params["purchasePrice"];
 		$barCode = $params["barCode"];
 		$memo = $params["memo"];
-		$brandId = $params["brandId"];
+	//	$brandId = $params["brandId"];
 		
 		$py = $params["py"];
 		$specPY = $params["specPY"];
@@ -279,13 +279,13 @@ class GoodsDAO extends PSIBaseExDAO {
 		}
 		
 		// 检查商品品牌
-		if ($brandId) {
-			$brandDAO = new GoodsBrandDAO($db);
-			$brand = $brandDAO->getBrandById($brandId);
-			if (! $brand) {
-				return $this->bad("商品品牌不存在");
-			}
-		}
+	//	if ($brandId) {
+	//		$brandDAO = new GoodsBrandDAO($db);
+	//		$brand = $brandDAO->getBrandById($brandId);
+	//		if (! $brand) {
+	//			return $this->bad("商品品牌不存在");
+	//		}
+	//	}
 		
 		// 编辑
 		// 检查商品编码是否唯一
@@ -647,8 +647,8 @@ class GoodsDAO extends PSIBaseExDAO {
 			$result["spec"] = $data[0]["spec"];
 			$result["unitId"] = $data[0]["unit_id"];
 			$result["salePrice"] = $data[0]["sale_price"];
-			$brandId = $data[0]["brand_id"];
-			$result["brandId"] = $brandId;
+		//	$brandId = $data[0]["brand_id"];
+		//	$result["brandId"] = $brandId;
 			
 			$v = $data[0]["purchase_price"];
 			if ($v == 0) {
@@ -666,11 +666,11 @@ class GoodsDAO extends PSIBaseExDAO {
 				$result["categoryName"] = $data[0]["full_name"];
 			}
 			
-			if ($brandId) {
-				$sql = "select full_name from t_goods_brand where id = '%s' ";
-				$data = $db->query($sql, $brandId);
-				$result["brandFullName"] = $data[0]["full_name"];
-			}
+		//	if ($brandId) {
+		//		$sql = "select full_name from t_goods_brand where id = '%s' ";
+		//		$data = $db->query($sql, $brandId);
+		//		$result["brandFullName"] = $data[0]["full_name"];
+		//	}
 			
 			return $result;
 		} else {

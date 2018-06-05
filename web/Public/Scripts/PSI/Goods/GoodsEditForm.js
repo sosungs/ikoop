@@ -258,24 +258,28 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 											scope : me
 										}
 									}
-								},/** {
-									id : "PSI_Goods_GoodsEditForm_editBrandId",
-									xtype : "hidden",
-									name : "brandId"
-								}, {
-									id : "PSI_Goods_GoodsEditForm_editBrand",
-									fieldLabel : "品牌",
-									name : "brandName",
-									xtype : "PSI_goods_brand_field",
-									colspan : 2,
-									width : 430,
-									listeners : {
-										specialkey : {
-											fn : me.onEditSpecialKey,
-											scope : me
-										}
-									}
-								},*/ {
+								},
+							/**	   {
+							*		id : "PSI_Goods_GoodsEditForm_editBrandId",
+							*		xtype : "hidden",
+							*		name : "brandId"
+							*	}, {
+							*		id : "PSI_Goods_GoodsEditForm_editBrand",
+							*		fieldLabel : "品牌",
+							*		name : "brandName",
+							*		xtype : "PSI_goods_brand_field",
+							*		colspan : 2,
+							*		width : 430,
+							*		listeners : {
+							*			specialkey : {
+							*				fn : me.onEditSpecialKey,
+							*				scope : me
+							*			}
+							*		}
+							*	},
+							*
+							*
+							**/    {
 									fieldLabel : "销售基准价",
 									xtype : "numberfield",
 									hideTrigger : true,
@@ -409,12 +413,12 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 										.setValue(data.purchasePrice);
 								me.editBarCode.setValue(data.barCode);
 								me.editMemo.setValue(data.memo);
-								var brandId = data.brandId;
-								if (brandId) {
-									var editBrand = me.editBrand;
-									editBrand.setIdValue(brandId);
-									editBrand.setValue(data.brandFullName);
-								}
+							//	var brandId = data.brandId;
+							//	if (brandId) {
+							//		var editBrand = me.editBrand;
+							//		editBrand.setIdValue(brandId);
+							//		editBrand.setValue(data.brandFullName);
+							//	}
 							} else {
 								// 新增商品
 								if (unitStore.getCount() > 0) {
