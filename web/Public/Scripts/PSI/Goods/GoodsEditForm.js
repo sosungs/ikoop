@@ -175,9 +175,6 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 									fieldLabel : "品牌",
 									colspan : 2,
 									width : 430,
-									allowBlank : false,
-									blankText : "没有输入品牌",
-									beforeLabelTextTpl : PSI.Const.REQUIRED,
 									name : "brandcode",
 									value : entity == null ? null : entity
 											.get("brandcode"),
@@ -441,8 +438,8 @@ Ext.define("PSI.Goods.GoodsEditForm", {
 		var categoryId = me.editCategory.getIdValue();
 		me.editCategoryId.setValue(categoryId);
 
-		var brandId = me.editBrand.getIdValue();
-		me.editBrandId.setValue(brandId);
+		//var brandId = me.editBrand.getIdValue();
+		//me.editBrandId.setValue(brandId);
 
 		var f = me.editForm;
 		var el = f.getEl();
